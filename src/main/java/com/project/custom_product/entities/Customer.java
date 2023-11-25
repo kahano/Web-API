@@ -30,7 +30,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private long customer_id;
+    private Integer customer_id;
 
     @Nonnull
     @Column(name = "first_name", nullable = false)
@@ -43,9 +43,11 @@ public class Customer {
 
     private String password;
 
+    @Nonnull
     @Column(name = "adress")
     private String address;
 
+    @Nonnull
     @Column(name = "telefon_number")
     private String telefon_number;
 

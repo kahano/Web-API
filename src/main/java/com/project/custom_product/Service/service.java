@@ -16,11 +16,14 @@ public interface service {
     void deleteCustomerById(long id);
 
     
-    public Optional<Customer> findById(long id);
+    Optional<Customer> findCustomerById(Integer id);
+
+    List<customer_ProductDTO> getAllcustomers();
+
+    
 
 
 
-    Integer get_available_products();
 
 
     

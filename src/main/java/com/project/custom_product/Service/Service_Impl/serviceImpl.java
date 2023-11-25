@@ -1,9 +1,11 @@
 package com.project.custom_product.Service.Service_Impl;
 
 import java.util.Optional;
-
+import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 
@@ -12,19 +14,13 @@ import com.project.custom_product.Service.service;
 import com.project.custom_product.entities.Customer;
 
 @Service
+@Primary
+@Qualifier
 public class serviceImpl implements service  {
 
     @Autowired
     private customer_repository customer_repos;
 
-
-
-    
-
-    public serviceImpl(customer_repository customer_repos) {
-        this.customer_repos = customer_repos;
-     
-    }
 
 
 
@@ -40,11 +36,11 @@ public class serviceImpl implements service  {
 
 
 
-    @Override
-    public void deleteCustomerById(long id) {
-        // TODO Auto-generated method stub
-        customer_repos.findById(id);
-    }
+    // @Override
+    // public void deleteCustomerById(Integer id) {
+    //     // TODO Auto-generated method stub
+    //     customer_repos.findById(id);
+    // }
 
 
 
@@ -60,10 +56,20 @@ public class serviceImpl implements service  {
 
 
     @Override
-    public Optional<Customer> findById(long id) {
+    public Optional<Customer> findCustomerById(Integer customer_id) {
         // TODO Auto-generated method stub
         
-        return customer_repos.findById(id);
+        return customer_repos.findById(customer_id);
+    }
+
+
+
+
+
+    @Override
+    public void deleteCustomerById(long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteCustomerById'");
     }
 
     
