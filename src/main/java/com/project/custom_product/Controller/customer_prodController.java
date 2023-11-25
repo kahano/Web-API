@@ -1,6 +1,8 @@
 package com.project.custom_product.Controller;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -9,9 +11,11 @@ import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +41,18 @@ public class customer_prodController {
     private ModelMapper mapper;
 
 
+    private customer_ProductDTO convertEntityToDto(Customer customer){
+        
+         mapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
+
+        customer_ProductDTO customerDTO = new customer_ProductDTO();
+        customerDTO = mapper.map(customer,customer_ProductDTO.class);
+        return customerDTO;
+    }
+
+
+
   
     @PostMapping
     public ResponseEntity<customer_ProductDTO> create (@RequestBody customer_ProductDTO customerDTO){
@@ -55,10 +71,8 @@ public class customer_prodController {
 
     @GetMapping("/{customer_id}")
 
-    public ResponseEntity<customer_ProductDTO> findById(@PathVariable Integer customer_id){
+    public ResponseEntity<customer_ProductDTO> getCustommer(@PathVariable Integer customer_id){
 
-         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
 
         Optional<Customer> customer = custom_service.findCustomerById(customer_id);
         customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
@@ -66,6 +80,50 @@ public class customer_prodController {
         
 
     }
+
+    
+    @GetMapping
+
+    public ResponseEntity<List<customer_ProductDTO>> findAllCustomers(){
+        
+        List<Customer> customers = custom_service.getAllcustomers();
+       
+        return new ResponseEntity<> (customers.stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList()),HttpStatus.OK);
+    }
+
+    @PutMapping("/{customer_id}")
+    public ResponseEntity<customer_ProductDTO> updateCustomer(@PathVariable Integer customer_id, @RequestBody customer_ProductDTO customer_dto){
+
+
+          Customer customer = mapper.map(customer_dto,Customer.class);
+          Customer update = new Customer();
+          update.setFirst_name(customer.getFirst_name());
+          update.setLast_name(customer.getLast_name());
+       
+         custom_service.updateCustomer(customer_id, customer);
+         
+        
+        //updated_customer.setCustomer_id(customer_dto.getCustomer_id());
+        
+
+        // custom_service.saveCustomer(updated_customer);
+        customer_ProductDTO customerDTO = mapper.map(update,customer_ProductDTO.class);
+        return new ResponseEntity<>(customerDTO,HttpStatus.OK);
+
+  
+
+        
+    }
+
+    @DeleteMapping("/{customer_id}")
+    public ResponseEntity<?> delete_customer(@PathVariable Integer customer_id){
+        custom_service.deleteCustomerById(customer_id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
+
 
     
 

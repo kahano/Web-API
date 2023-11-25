@@ -1,5 +1,6 @@
 package com.project.custom_product.Service.Service_Impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
-
+import com.project.custom_product.DTO.customer_ProductDTO;
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.service;
 import com.project.custom_product.entities.Customer;
@@ -36,21 +37,21 @@ public class serviceImpl implements service  {
 
 
 
-    // @Override
-    // public void deleteCustomerById(Integer id) {
-    //     // TODO Auto-generated method stub
-    //     customer_repos.findById(id);
-    // }
-
-
-
-
     @Override
-    public Integer get_available_products() {
+    public void deleteCustomerById(Integer id) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get_available_products'");
+        Customer customer = customer_repos.findById(id).get();
+        customer_repos.delete(customer);
     }
 
+     @Override
+    public Customer updateCustomer(Integer customer_id, Customer customer) {
+        // TODO Auto-generated method stub
+
+        return customer_repos.findAll().set(findIndexById(customer_id), customer);
+
+    }
+        
 
 
 
@@ -58,19 +59,36 @@ public class serviceImpl implements service  {
     @Override
     public Optional<Customer> findCustomerById(Integer customer_id) {
         // TODO Auto-generated method stub
+
+        Optional<Customer> customer = customer_repos.findById(customer_id);
         
-        return customer_repos.findById(customer_id);
+        return customer;
     }
-
-
 
 
 
     @Override
-    public void deleteCustomerById(long id) {
+    public List<Customer> getAllcustomers() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteCustomerById'");
+        
+        return customer_repos.findAll();
     }
+
+
+    private Integer findIndexById(Integer customer_id){
+
+        return IntStream.range(0, customer_repos.findAll().size())
+                .filter(index -> getAllcustomers().get(index).getCustomer_id() == (customer_id))
+                .findFirst()
+                .orElseThrow();
+
+
+    }
+
+
+
+   
+
 
     
     

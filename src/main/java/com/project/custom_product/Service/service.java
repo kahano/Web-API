@@ -13,14 +13,16 @@ public interface service {
 
     Customer saveCustomer(Customer customer);
 
-    void deleteCustomerById(long id);
+    void deleteCustomerById(Integer id);
+
+    Customer updateCustomer(Integer id, Customer customer);
 
     
     Optional<Customer> findCustomerById(Integer id);
 
-    List<customer_ProductDTO> getAllcustomers();
+    List<Customer> getAllcustomers();
 
-    
+
 
 
 
