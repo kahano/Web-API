@@ -38,8 +38,8 @@ public class Product {
     @Column(name = "total_quantities", nullable = false)
     private Integer total_quantites;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id", referencedColumnName = "prod_id")
-    private Customer customer;
+    // @ManyToOne(optional = false)
+    // @JoinColumn(name = "customer_id", referencedColumnName = "prod_id")
+    // private Customer customer;
 
 }

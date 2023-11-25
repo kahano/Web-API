@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.project.custom_product.entities.Customer;
 
+@Respository
 public interface customer_repository extends JpaRepository<Customer,Long> {
     
 }

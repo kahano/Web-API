@@ -1,24 +1,31 @@
 package com.project.custom_product.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.stereotype.Service;
 
 import com.project.custom_product.DTO.customer_ProductDTO;
 import com.project.custom_product.entities.Customer;
 
+
 public interface service {
 
-    customer_ProductDTO saveCustomer(customer_ProductDTO customerdto);
+    Customer saveCustomer(Customer customer);
 
-    customer_ProductDTO deleteCustomerById(long id);
+    void deleteCustomerById(long id);
 
-    customer_ProductDTO updateCustomer(Customer customer);
+    
+    public Optional<Customer> findById(long id);
 
-    //List<customer_ProductDTO> getAll_customerProducts();
 
-    customer_ProductDTO getCustomerById(long id);
 
-    //Integer get_available_products();
+    Integer get_available_products();
+
+
+    
+
+
 
 
     

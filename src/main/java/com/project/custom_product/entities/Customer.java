@@ -49,8 +49,8 @@ public class Customer {
     @Column(name = "telefon_number")
     private String telefon_number;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "customer",cascade =  CascadeType.ALL)
-    @JoinColumn(name = "prod_id")
-    private List<Product> product_list;
-}
+//     @JsonIgnore
+//     @OneToMany(mappedBy = "customer",cascade =  CascadeType.ALL)
+//     @JoinColumn(name = "customer_id", referencedColumnName = "prod_id")
+//     private List<Product> product_list;
+ }
