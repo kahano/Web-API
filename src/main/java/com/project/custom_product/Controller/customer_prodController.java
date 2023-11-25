@@ -43,11 +43,9 @@ public class customer_prodController {
 
     private customer_ProductDTO convertEntityToDto(Customer customer){
         
-         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+   
 
-        customer_ProductDTO customerDTO = new customer_ProductDTO();
-        customerDTO = mapper.map(customer,customer_ProductDTO.class);
+        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
         return customerDTO;
     }
 
@@ -94,13 +92,13 @@ public class customer_prodController {
     }
 
     @PutMapping("/{customer_id}")
-    public ResponseEntity<customer_ProductDTO> updateCustomer(@PathVariable Integer customer_id, @RequestBody customer_ProductDTO customer_dto){
+    public ResponseEntity<customer_ProductDTO> update(@PathVariable Integer customer_id, @RequestBody customer_ProductDTO customer_dto){
 
 
           Customer customer = mapper.map(customer_dto,Customer.class);
-          Customer update = new Customer();
-          update.setFirst_name(customer.getFirst_name());
-          update.setLast_name(customer.getLast_name());
+        //   Customer update = new Customer();
+        //   customer.setFirst_name(customer.getFirst_name());
+        //   customer.setLast_name(customer.getLast_name());
        
          custom_service.updateCustomer(customer_id, customer);
          
@@ -109,7 +107,7 @@ public class customer_prodController {
         
 
         // custom_service.saveCustomer(updated_customer);
-        customer_ProductDTO customerDTO = mapper.map(update,customer_ProductDTO.class);
+        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
 
   

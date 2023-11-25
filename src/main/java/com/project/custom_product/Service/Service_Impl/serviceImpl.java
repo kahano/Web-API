@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-
-import com.project.custom_product.DTO.customer_ProductDTO;
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.service;
 import com.project.custom_product.entities.Customer;
@@ -48,7 +46,12 @@ public class serviceImpl implements service  {
     public Customer updateCustomer(Integer customer_id, Customer customer) {
         // TODO Auto-generated method stub
 
-        return customer_repos.findAll().set(findIndexById(customer_id), customer);
+        Customer update = customer_repos.findById(customer_id).get();
+        update.setFirst_name(customer.getFirst_name());
+        update.setLast_name(customer.getLast_name());
+        return customer_repos.save(update);
+
+        
 
     }
         
@@ -75,15 +78,15 @@ public class serviceImpl implements service  {
     }
 
 
-    private Integer findIndexById(Integer customer_id){
+    // private Integer findIndexById(Integer customer_id){
 
-        return IntStream.range(0, customer_repos.findAll().size())
-                .filter(index -> getAllcustomers().get(index).getCustomer_id() == (customer_id))
-                .findFirst()
-                .orElseThrow();
+    //     return IntStream.range(0, customer_repos.findAll().size())
+    //             .filter(index -> getAllcustomers().get(index).getCustomer_id() == (customer_id))
+    //             .findFirst()
+    //             .orElseThrow();
 
 
-    }
+    // }
 
 
 
