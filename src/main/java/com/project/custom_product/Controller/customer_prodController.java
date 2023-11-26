@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.custom_product.DTO.customer_ProductDTO;
 import com.project.custom_product.Service.Service_Impl.serviceImpl;
 import com.project.custom_product.entities.Customer;
-
+import com.project.custom_product.exception.CustomerNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,6 +52,17 @@ public class customer_prodController {
     }
 
 
+    private Customer DoesCustomerExist(Optional<Customer> customer , Integer customer_id){
+
+        if(customer.isPresent()){
+            return customer.get();
+        }
+        else{
+            throw new CustomerNotFoundException(customer_id);
+        }
+    }
+
+
 
   
     @PostMapping
@@ -73,7 +84,8 @@ public class customer_prodController {
 
 
         Optional<Customer> customer = custom_service.findCustomerById(customer_id);
-        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
+        Customer get_customer = DoesCustomerExist(customer, customer_id);
+        customer_ProductDTO customerDTO = mapper.map(get_customer,customer_ProductDTO.class);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         
 
