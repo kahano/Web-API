@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.custom_product.DTO.customer_ProductDTO;
 import com.project.custom_product.Service.Service_Impl.serviceImpl;
 import com.project.custom_product.entities.Customer;
-import com.project.custom_product.mapper.customer_productMapper;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -43,7 +43,9 @@ public class customer_prodController {
 
     private customer_ProductDTO convertEntityToDto(Customer customer){
         
-   
+        
+         mapper.getConfiguration()
+                .setMatchingStrategy(MatchingStrategies.LOOSE);
 
         customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
         return customerDTO;
@@ -55,8 +57,6 @@ public class customer_prodController {
     @PostMapping
     public ResponseEntity<customer_ProductDTO> create (@RequestBody customer_ProductDTO customerDTO){
 
-         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
         
         Customer customer = mapper.map(customerDTO,Customer.class);
 
@@ -96,18 +96,10 @@ public class customer_prodController {
 
 
           Customer customer = mapper.map(customer_dto,Customer.class);
-        //   Customer update = new Customer();
-        //   customer.setFirst_name(customer.getFirst_name());
-        //   customer.setLast_name(customer.getLast_name());
        
          custom_service.updateCustomer(customer_id, customer);
-         
         
-        //updated_customer.setCustomer_id(customer_dto.getCustomer_id());
-        
-
-        // custom_service.saveCustomer(updated_customer);
-        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
+        customer_ProductDTO customerDTO = convertEntityToDto(customer);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
 
   
