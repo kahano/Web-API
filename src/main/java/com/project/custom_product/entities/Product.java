@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "prod_id")
-    private long prod_id ;
+    @Column(name = "product_id")
+    private long product_id ;
 
     @Nonnull
     @Column(name = "product_name" , nullable = false)
@@ -33,6 +33,11 @@ public class Product {
     @Nonnull
     @Column(name = "category",nullable = false)
     private String category;
+
+    
+    @Nonnull
+    @Column(name =  "serial_code", nullable = false)
+    private String serial_code;
     
     @Nonnull
     @Column(name = "total_quantities", nullable = false)

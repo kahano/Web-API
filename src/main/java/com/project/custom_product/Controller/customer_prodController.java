@@ -52,15 +52,7 @@ public class customer_prodController {
     }
 
 
-    private Customer DoesCustomerExist(Optional<Customer> customer , Integer customer_id){
-
-        if(customer.isPresent()){
-            return customer.get();
-        }
-        else{
-            throw new CustomerNotFoundException(customer_id);
-        }
-    }
+   
 
 
 
@@ -83,9 +75,8 @@ public class customer_prodController {
     public ResponseEntity<customer_ProductDTO> getCustommer(@PathVariable Integer customer_id){
 
 
-        Optional<Customer> customer = custom_service.findCustomerById(customer_id);
-        Customer get_customer = DoesCustomerExist(customer, customer_id);
-        customer_ProductDTO customerDTO = mapper.map(get_customer,customer_ProductDTO.class);
+        Customer customer = custom_service.findCustomerById(customer_id);
+        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         
 

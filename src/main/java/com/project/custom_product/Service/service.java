@@ -18,7 +18,7 @@ public interface service {
     Customer updateCustomer(Integer id, Customer customer);
 
     
-    Optional<Customer> findCustomerById(Integer id);
+    Customer findCustomerById(Integer id);
 
     List<Customer> getAllcustomers();
 

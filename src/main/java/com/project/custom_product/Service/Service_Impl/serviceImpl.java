@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.service;
 import com.project.custom_product.entities.Customer;
+import com.project.custom_product.exception.CustomerNotFoundException;
 
 @Service
 @Primary
@@ -27,29 +28,27 @@ public class serviceImpl implements service  {
 
     @Override
     public Customer saveCustomer(Customer customer) {
-        // TODO Auto-generated method stub
+
         return customer_repos.save(customer);
     }
 
 
 
-
-
     @Override
     public void deleteCustomerById(Integer id) {
-        // TODO Auto-generated method stub
+        
         Customer customer = customer_repos.findById(id).get();
         customer_repos.delete(customer);
     }
 
+
      @Override
     public Customer updateCustomer(Integer customer_id, Customer customer) {
-        // TODO Auto-generated method stub
-
-        Customer update = customer_repos.findById(customer_id).get();
-        update.setFirst_name(customer.getFirst_name());
-        update.setLast_name(customer.getLast_name());
-        return customer_repos.save(update);
+             
+        Customer updated_customer = findCustomerById(customer_id);
+        updated_customer.setFirst_name(customer.getFirst_name());
+        updated_customer.setLast_name(customer.getLast_name());
+        return customer_repos.save(updated_customer);
 
         
 
@@ -57,24 +56,33 @@ public class serviceImpl implements service  {
         
 
 
-
-
     @Override
-    public Optional<Customer> findCustomerById(Integer customer_id) {
-        // TODO Auto-generated method stub
+    public Customer findCustomerById(Integer customer_id) {
+     
 
         Optional<Customer> customer = customer_repos.findById(customer_id);
+        Customer found_customer = DoesCustomerExist(customer, customer_id);
         
-        return customer;
+        return found_customer;
     }
 
 
 
     @Override
     public List<Customer> getAllcustomers() {
-        // TODO Auto-generated method stub
+     
         
         return customer_repos.findAll();
+    }
+
+    static Customer DoesCustomerExist(Optional<Customer> customer , Integer customer_id){
+
+        if(customer.isPresent()){
+            return customer.get();
+        }
+        else{
+            throw new CustomerNotFoundException(customer_id);
+        }
     }
 
 
