@@ -2,24 +2,27 @@ package com.project.custom_product.Service.Service_Impl;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.customer_repository;
-import com.project.custom_product.Service.service;
+import com.project.custom_product.Service.Customer_service;
+import com.project.custom_product.Service.DoesExist;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.exception.CustomerNotFoundException;
 
 @Service
 @Primary
 @Qualifier
-public class serviceImpl implements service  {
+public class Customer_serviceImpl implements Customer_service  {
 
     @Autowired
     private customer_repository customer_repos;
+
+
+    private DoesExist<Customer> checkForObject;
 
 
 
@@ -48,6 +51,8 @@ public class serviceImpl implements service  {
         Customer updated_customer = findCustomerById(customer_id);
         updated_customer.setFirst_name(customer.getFirst_name());
         updated_customer.setLast_name(customer.getLast_name());
+        updated_customer.setAddress(customer.getAddress());
+        updated_customer.setTelefon_number(customer.getTelefon_number());
         return customer_repos.save(updated_customer);
 
         
@@ -61,9 +66,7 @@ public class serviceImpl implements service  {
      
 
         Optional<Customer> customer = customer_repos.findById(customer_id);
-        Customer found_customer = DoesCustomerExist(customer, customer_id);
-        
-        return found_customer;
+        return checkForObject.DoesObjectExist(customer, customer_id);
     }
 
 
@@ -75,15 +78,15 @@ public class serviceImpl implements service  {
         return customer_repos.findAll();
     }
 
-    static Customer DoesCustomerExist(Optional<Customer> customer , Integer customer_id){
+    // static Customer DoesCustomerExist(Optional<Customer> customer , Integer customer_id){
 
-        if(customer.isPresent()){
-            return customer.get();
-        }
-        else{
-            throw new CustomerNotFoundException(customer_id);
-        }
-    }
+    //     if(customer.isPresent()){
+    //         return customer.get();
+    //     }
+    //     else{
+    //         throw new CustomerNotFoundException(customer_id);
+    //     }
+    // }
 
 
     // private Integer findIndexById(Integer customer_id){

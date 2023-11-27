@@ -45,11 +45,11 @@ public class Customer {
 
     private String password;
 
-    @Nonnull
-    @Column(name = "adress")
+   
+    @Column(name = "address")
     private String address;
 
-    @Nonnull
+  
     @Column(name = "telefon_number")
     private String telefon_number;
 

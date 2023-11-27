@@ -20,10 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.custom_product.DTO.customer_ProductDTO;
-import com.project.custom_product.Service.Service_Impl.serviceImpl;
+import com.project.custom_product.DTO.EntityToDto;
+import com.project.custom_product.DTO.customerDTO;
+import com.project.custom_product.Service.Service_Impl.Customer_serviceImpl;
 import com.project.custom_product.entities.Customer;
-import com.project.custom_product.exception.CustomerNotFoundException;
+
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,23 +32,25 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/customers")
-public class customer_prodController {
+public class customerController {
 
 
     @Autowired
-    private serviceImpl custom_service;
+    private Customer_serviceImpl custom_service;
 
     @Autowired
     private ModelMapper mapper;
 
+    //private EntityToDto<Customer> DTO;
 
-    private customer_ProductDTO convertEntityToDto(Customer customer){
+
+    private customerDTO convertEntityToDto(Customer customer){
         
         
          mapper.getConfiguration()
                 .setMatchingStrategy(MatchingStrategies.LOOSE);
 
-        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
+        customerDTO customerDTO = mapper.map(customer,customerDTO.class);
         return customerDTO;
     }
 
@@ -58,7 +61,7 @@ public class customer_prodController {
 
   
     @PostMapping
-    public ResponseEntity<customer_ProductDTO> create (@RequestBody customer_ProductDTO customerDTO){
+    public ResponseEntity<customerDTO> create (@RequestBody customerDTO customerDTO){
 
         
         Customer customer = mapper.map(customerDTO,Customer.class);
@@ -72,11 +75,11 @@ public class customer_prodController {
 
     @GetMapping("/{customer_id}")
 
-    public ResponseEntity<customer_ProductDTO> getCustommer(@PathVariable Integer customer_id){
+    public ResponseEntity<customerDTO> getCustommer(@PathVariable Integer customer_id){
 
 
         Customer customer = custom_service.findCustomerById(customer_id);
-        customer_ProductDTO customerDTO = mapper.map(customer,customer_ProductDTO.class);
+        customerDTO customerDTO = mapper.map(customer,customerDTO.class);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         
 
@@ -85,24 +88,26 @@ public class customer_prodController {
     
     @GetMapping
 
-    public ResponseEntity<List<customer_ProductDTO>> findAllCustomers(){
+    public ResponseEntity<List<customerDTO>> findAllCustomers(){
         
         List<Customer> customers = custom_service.getAllcustomers();
+
        
         return new ResponseEntity<> (customers.stream()
-                .map(this::convertEntityToDto)
+                .map(this::convertEntityToDto )
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 
     @PutMapping("/{customer_id}")
-    public ResponseEntity<customer_ProductDTO> update(@PathVariable Integer customer_id, @RequestBody customer_ProductDTO customer_dto){
+    public ResponseEntity<customerDTO> update(@PathVariable Integer customer_id, @RequestBody customerDTO customer_dto){
 
 
           Customer customer = mapper.map(customer_dto,Customer.class);
        
          custom_service.updateCustomer(customer_id, customer);
+
         
-        customer_ProductDTO customerDTO = convertEntityToDto(customer);
+        customerDTO customerDTO = convertEntityToDto(customer);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
 
   

@@ -24,27 +24,27 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
-    private long product_id ;
+    private Integer product_id ;
 
     @Nonnull
     @Column(name = "product_name" , nullable = false)
-    private String productname;
+    private String product_name;
 
-    @Nonnull
-    @Column(name = "category",nullable = false)
+
+    @Column(name = "category")
     private String category;
 
     
     @Nonnull
-    @Column(name =  "serial_code", nullable = false)
+    @Column(name =  "serial_code", nullable = false, unique = true)
     private String serial_code;
     
     @Nonnull
     @Column(name = "total_quantities", nullable = false)
-    private Integer total_quantites;
+    private Integer total_quantities;
 
     // @ManyToOne(optional = false)
-    // @JoinColumn(name = "customer_id", referencedColumnName = "prod_id")
+    // @JoinColumn(name = "customer_id", referencedColumnName = "product_id")
     // private Customer customer;
 
 }
