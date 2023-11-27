@@ -14,11 +14,13 @@ public interface Purchase_service {
 
     void deletePurchase(Integer customer_id, Integer product_id);
 
-    Integer getTotalPricePurchase_per_Customer(Integer price, Integer total_quantites, Integer customer_id, Integer product_id);
+    Integer getTotalPricePurchase_per_Customer( Integer customer_id, Integer product_id);
 
     List<Purchase> getAllCustomersPurchased(Integer customer_id);
 
     List<Purchase> getAllProductssPurchased(Integer product_id);
+
+    List<Purchase> getAllPurchases();
 
     
 }

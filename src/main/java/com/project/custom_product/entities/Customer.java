@@ -54,7 +54,7 @@ public class Customer {
     private String telefon_number;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL )
     private List<Purchase> purchases ;
 
 

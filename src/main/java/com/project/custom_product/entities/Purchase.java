@@ -9,8 +9,23 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Table(name = "purchase", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"customer_id", "product_id"})
+})
+
 public class Purchase {
 
     @Id
@@ -25,6 +40,10 @@ public class Purchase {
     @Nonnull
     @Column(name = "price" , nullable = false)
     private Integer price;
+
+    @Nonnull
+    @Column(name = "total_quantities", nullable = false)
+    private Integer total_quantities;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")

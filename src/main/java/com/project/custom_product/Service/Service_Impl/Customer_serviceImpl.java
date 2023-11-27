@@ -13,6 +13,7 @@ import com.project.custom_product.Service.DoesExist;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.exception.CustomerNotFoundException;
 
+
 @Service
 @Primary
 @Qualifier
@@ -20,11 +21,6 @@ public class Customer_serviceImpl implements Customer_service  {
 
     @Autowired
     private customer_repository customer_repos;
-
-
-    private DoesExist<Customer> checkForObject;
-
-
 
 
 
@@ -66,8 +62,19 @@ public class Customer_serviceImpl implements Customer_service  {
      
 
         Optional<Customer> customer = customer_repos.findById(customer_id);
-        return checkForObject.DoesObjectExist(customer, customer_id);
+        return DoesObjectExist(customer, customer_id);
     }
+
+    static Customer DoesObjectExist(Optional<Customer> object, Integer id){
+
+        if(object.isPresent()){
+            return object.get();
+        }
+        else{
+            throw new CustomerNotFoundException(id);
+        }
+    }
+
 
 
 
