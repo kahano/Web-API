@@ -1,7 +1,12 @@
 package com.project.custom_product.entities;
 
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.annotation.Nonnull;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,8 +49,9 @@ public class Product {
     @Column(name = "total_quantities", nullable = false)
     private Integer total_quantities;
 
-    // @ManyToOne(optional = false)
-    // @JoinColumn(name = "customer_id", referencedColumnName = "product_id")
-    // private Customer customer;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL )
+    private List<Purchase> purchases ;
 
 }
