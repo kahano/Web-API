@@ -66,12 +66,29 @@ public class Purchase_serviceImpl implements Purchase_service {
     }
 
     @Override
-    public Purchase updatePurchase(Integer customer_id, Integer product_id, Integer total_quantities) {
+    public Purchase updatePurchase( Integer customer_id, Integer product_id, Integer total_quantities) {
         
-        Purchase purchase = this.findPurchaseBYId(customer_id, product_id);
-        purchase.setTotal_quantities(total_quantities);
+          Purchase updated_purchase = this.findPurchaseBYId(customer_id, product_id);
+          Product product =  product_service.findProductById(product_id);
+          Integer value = 0;
+
+         try{
+             if(total_quantities <= product.getTotal_quantities()){
+                 value += updated_purchase.getPrice() *  total_quantities;
+               
+            
+             }
+            
+
+      
+       }catch(Exception e){
+             e.printStackTrace();
+       }
+       updated_purchase.setTotal_quantities(total_quantities);
+       updated_purchase.setBill(value);
+   
         
-        return purchase_repos.save(purchase);
+        return purchase_repos.save(updated_purchase);
        
     }
 
@@ -85,18 +102,15 @@ public class Purchase_serviceImpl implements Purchase_service {
     @Override
     public Purchase getTotalPricePurchase_per_Customer(  Integer customer_id, Integer product_id) {
         
-        Integer sum = 0;
-        Optional<Purchase> purchase = purchase_repos.findByCustomerIdAndProductId(customer_id, product_id);
-        Purchase checkPurchase = DoesObjectExist(purchase, customer_id, product_id);
-  
+        Purchase checkPurchase = this.findPurchaseBYId(customer_id, product_id);
         try{
             if(checkPurchase.getTotal_quantities() > 0){
-            sum += checkPurchase.getPrice() * checkPurchase.getTotal_quantities();
-        }
+               checkPurchase = this.updatePurchase(customer_id, product_id, checkPurchase.getTotal_quantities());
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
-        checkPurchase.setBill(sum);
+      
        
 
         return checkPurchase;
@@ -105,6 +119,8 @@ public class Purchase_serviceImpl implements Purchase_service {
 
        
     }
+
+    
 
     @Override
     public List<Purchase> getAllCustomersPurchased(Integer customer_id) {
@@ -134,6 +150,34 @@ public class Purchase_serviceImpl implements Purchase_service {
         return (List<Purchase>) purchase_repos.findAll();
        
     }
+
+    private boolean checkQuantities(Integer customer_id, Integer product_id){
+
+        Purchase purchase = this.findPurchaseBYId(customer_id, product_id);
+        Product product =  product_service.findProductById(product_id);
+
+        boolean isPresent = false;
+
+       try{
+            if(purchase.getTotal_quantities() <= product.getTotal_quantities()){
+                isPresent = true;
+                
+            
+            }
+       }
+       catch(Exception e){
+
+            e.printStackTrace();
+            
+       }
+       return isPresent;
+
+    }
+
+  
+
+ 
+    
 
 
 }

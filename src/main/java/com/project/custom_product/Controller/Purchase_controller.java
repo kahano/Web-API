@@ -67,7 +67,7 @@ public class Purchase_controller {
            @PathVariable Integer product_id){
 
             Purchase purchase = mapper.map(purchase_dto, Purchase.class);
-            purchase_service.updatePurchase(customer_id, product_id, purchase.getTotal_quantities());
+            purchase_service.updatePurchase( customer_id, product_id,purchase.getTotal_quantities());
             PurchaseDTO dto = convertEntityToDto(purchase);
 
             return new ResponseEntity<>(dto,HttpStatus.OK);
