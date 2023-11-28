@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.project.custom_product.DTO.EntityToDto;
 import com.project.custom_product.DTO.customerDTO;
 import com.project.custom_product.Service.Service_Impl.Customer_serviceImpl;
 import com.project.custom_product.entities.Customer;
@@ -73,12 +71,12 @@ public class customerController {
         return new ResponseEntity<>(customerDTO,HttpStatus.CREATED);
     }
 
-    @GetMapping("/{customer_id}")
+    @GetMapping("/{id}")
 
-    public ResponseEntity<customerDTO> getCustommer(@PathVariable Integer customer_id){
+    public ResponseEntity<customerDTO> getCustommer(@PathVariable Integer id){
 
 
-        Customer customer = custom_service.findCustomerById(customer_id);
+        Customer customer = custom_service.findCustomerById(id);
         customerDTO customerDTO = mapper.map(customer,customerDTO.class);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         
@@ -98,13 +96,13 @@ public class customerController {
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 
-    @PutMapping("/{customer_id}")
-    public ResponseEntity<customerDTO> update(@PathVariable Integer customer_id, @RequestBody customerDTO customer_dto){
+    @PutMapping("/{id}")
+    public ResponseEntity<customerDTO> update(@PathVariable Integer id, @RequestBody customerDTO customer_dto){
 
 
           Customer customer = mapper.map(customer_dto,Customer.class);
        
-         custom_service.updateCustomer(customer_id, customer);
+         custom_service.updateCustomer(id, customer);
 
         
         customerDTO customerDTO = convertEntityToDto(customer);
@@ -115,9 +113,9 @@ public class customerController {
         
     }
 
-    @DeleteMapping("/{customer_id}")
-    public ResponseEntity<?> delete_customer(@PathVariable Integer customer_id){
-        custom_service.deleteCustomerById(customer_id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete_customer(@PathVariable Integer id){
+        custom_service.deleteCustomerById(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
     }

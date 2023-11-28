@@ -34,10 +34,6 @@ public class productController {
 
      private productDTO convertEntityToDto(Product prod){
         
-        
-         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
-
         productDTO productDTO = mapper.map(prod,productDTO.class);
         return productDTO;
     }
@@ -61,12 +57,12 @@ public class productController {
         return new ResponseEntity<>(prodDTO,HttpStatus.CREATED);
     }
 
-    @GetMapping("/{product_id}")
+    @GetMapping("/{id}")
 
-    public ResponseEntity<productDTO> getCustommer(@PathVariable Integer product_id){
+    public ResponseEntity<productDTO> getCustommer(@PathVariable Integer id){
 
 
-        Product product = product_service.findProductById(product_id);
+        Product product = product_service.findProductById(id);
         productDTO productDTO = mapper.map(product,productDTO.class);
         return new ResponseEntity<>(productDTO,HttpStatus.OK);
         
@@ -87,13 +83,13 @@ public class productController {
      
     }
 
-    @PutMapping("/{product_id}")
-    public ResponseEntity<productDTO> update(@PathVariable Integer product_id, @RequestBody productDTO product_dto){
+    @PutMapping("/{id}")
+    public ResponseEntity<productDTO> update(@PathVariable Integer id, @RequestBody productDTO product_dto){
 
 
           Product product = mapper.map(product_dto,Product.class);
        
-         product_service.updateProduct(product_id, product);
+         product_service.updateProduct( id, product);
 
         
         productDTO product_DTO = convertEntityToDto(product);

@@ -9,14 +9,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.Customer_service;
-import com.project.custom_product.Service.DoesExist;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.exception.CustomerNotFoundException;
 
 
 @Service
-@Primary
-@Qualifier
+
 public class Customer_serviceImpl implements Customer_service  {
 
     @Autowired
@@ -34,9 +32,9 @@ public class Customer_serviceImpl implements Customer_service  {
 
 
     @Override
-    public void deleteCustomerById(Integer id) {
+    public void deleteCustomerById(Integer customer_id) {
         
-        Customer customer = customer_repos.findById(id).get();
+        Customer customer = customer_repos.findById(customer_id).get();
         customer_repos.delete(customer);
     }
 
@@ -62,7 +60,8 @@ public class Customer_serviceImpl implements Customer_service  {
      
 
         Optional<Customer> customer = customer_repos.findById(customer_id);
-        return DoesObjectExist(customer, customer_id);
+        Customer check =  DoesObjectExist(customer, customer_id);
+        return check;
     }
 
     static Customer DoesObjectExist(Optional<Customer> object, Integer id){

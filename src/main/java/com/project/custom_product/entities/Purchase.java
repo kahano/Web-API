@@ -30,8 +30,8 @@ public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "purchase_id" , nullable = false)
-    private Integer purchase_id;
+    @Column(name = "id" , nullable = false)
+    private Integer id;
 
     @Nonnull
     @Column(name = "purchase_code", nullable = false)
@@ -45,13 +45,17 @@ public class Purchase {
     @Column(name = "total_quantities", nullable = false)
     private Integer total_quantities;
 
+    @Nonnull
+    @Column(name = "bill", nullable = false)
+    private Integer bill;
+
     @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
     
     @ManyToOne(optional = false)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
 

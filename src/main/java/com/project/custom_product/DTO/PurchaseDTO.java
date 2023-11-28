@@ -2,22 +2,29 @@ package com.project.custom_product.DTO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
-
-public class productDTO {
+public class PurchaseDTO {
 
     @JsonIgnore
-    private Integer id;
+    private Integer purchase_id;
 
-    private String product_name;
-    private String category;
-    private String serial_code;
+    private String purchase_code;
+
+    private Integer price;
+
     private Integer total_quantities;
+
+    private Integer bill;
+
+   
+
+    
     
 }

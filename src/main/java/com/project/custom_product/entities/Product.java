@@ -29,8 +29,8 @@ import lombok.RequiredArgsConstructor;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
-    private Integer product_id ;
+    @Column(name = "id")
+    private Integer id ;
 
     @Nonnull
     @Column(name = "product_name" , nullable = false)

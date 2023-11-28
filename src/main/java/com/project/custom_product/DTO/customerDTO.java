@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class customerDTO{
 
     @JsonIgnore
-    private Integer customer_id;
+    private Integer id;
 
     private String first_name;
     private String last_name;
