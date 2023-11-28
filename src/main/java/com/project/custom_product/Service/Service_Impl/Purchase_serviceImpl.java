@@ -36,18 +36,7 @@ public class Purchase_serviceImpl implements Purchase_service {
 
   
 
-   
-    
 
-    // @Autowired
-    // private DoesExist<Customer> check_forCustomer;
-
-    // @Autowired
-    // private DoesExist<Product> check_forProduct;
-    // //private DoesExist<Product> check_forProduct;
-
-    // @Autowired
-    // private DoesExist<Purchase> check_forPurchase;
 
 
 
@@ -57,8 +46,18 @@ public class Purchase_serviceImpl implements Purchase_service {
         Customer customer =  customer_service.findCustomerById(customer_id);
         Product product =  product_service.findProductById(product_id);
 
-        purchase.setCustomer(customer);
-        purchase.setProduct(product);
+       try{
+             if(purchase.getTotal_quantities() <= product.getTotal_quantities()){
+                  purchase.setCustomer(customer);
+                  purchase.setProduct(product);
+            
+             }
+
+      
+       }catch(Exception e){
+             e.printStackTrace();
+       }
+
 
         return purchase_repos.save(purchase);
 
@@ -74,14 +73,13 @@ public class Purchase_serviceImpl implements Purchase_service {
     }
 
     @Override
-    public Purchase updatePurchase(Integer customer_id, Integer product_id,Integer total_quantites) {
+    public Purchase updatePurchase(Integer customer_id, Integer product_id, Integer total_quantities) {
         
-        // Optional<Purchase> purchase = purchase_repository.findByCustomerId_and_ProductId(customer_id, product_id);
-        // Product product =   Product_serviceImpl.DoesObjectExist(product_repository.findById(product_id), product_id);
-        // product.setTotal_quantities(total_quantites);
-        // Purchase checkPurchase = DoesObjectExist(purchase, customer_id, product_id);
-        // checkPurchase.setProduct(product);
-        return null;
+        Purchase purchase = this.findPurchaseBYId(customer_id, product_id);
+        purchase.setTotal_quantities(total_quantities);
+        
+        return purchase_repos.save(purchase);
+       
     }
 
     @Override
@@ -96,8 +94,13 @@ public class Purchase_serviceImpl implements Purchase_service {
         Integer sum = 0;
         Optional<Purchase> purchase = purchase_repos.findByCustomerIdAndProductId(customer_id, product_id);
         Purchase checkPurchase = DoesObjectExist(purchase, customer_id, product_id);
-        if(checkPurchase.getTotal_quantities() > 0){
+        //checkPurchase.setBill(checkPurchase.getBill());
+        try{
+            if(checkPurchase.getTotal_quantities() > 0){
             sum += checkPurchase.getPrice() * checkPurchase.getTotal_quantities();
+        }
+        }catch(Exception e){
+            e.printStackTrace();
         }
         checkPurchase.setBill(sum);
        

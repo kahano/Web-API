@@ -59,7 +59,7 @@ public class productController {
 
     @GetMapping("/{id}")
 
-    public ResponseEntity<productDTO> getCustommer(@PathVariable Integer id){
+    public ResponseEntity<productDTO> getProduct(@PathVariable Integer id){
 
 
         Product product = product_service.findProductById(id);
@@ -84,7 +84,7 @@ public class productController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<productDTO> update(@PathVariable Integer id, @RequestBody productDTO product_dto){
+    public ResponseEntity<productDTO> updateProduct(@PathVariable Integer id, @RequestBody productDTO product_dto){
 
 
           Product product = mapper.map(product_dto,Product.class);
@@ -101,7 +101,7 @@ public class productController {
     }
 
     @DeleteMapping("/{product_id}")
-    public ResponseEntity<?> delete_customer(@PathVariable Integer product_id){
+    public ResponseEntity<?> delete_Product(@PathVariable Integer product_id){
         product_service.deleteProductbyId(product_id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 

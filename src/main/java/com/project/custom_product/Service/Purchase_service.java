@@ -10,7 +10,7 @@ public interface Purchase_service {
 
     Purchase findPurchaseBYId(Integer customer_id, Integer product_id);
 
-    Purchase updatePurchase(Integer price, Integer customer_id, Integer product_id);
+    Purchase updatePurchase( Integer customer_id, Integer product_id, Integer total_quantities);
 
     void deletePurchase(Integer customer_id, Integer product_id);
 
