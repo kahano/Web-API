@@ -55,10 +55,10 @@ public class Product_serviceImpl implements Product_service {
     @Override
     public List<Product> getProducts() {
         
-        return productRepository.findAll();
+        return (List<Product>) productRepository.findAll();
     }
 
-    static Product DoesObjectExist(Optional<Product> object, Integer id){
+    private Product DoesObjectExist(Optional<Product> object, Integer id){
 
         if(object.isPresent()){
             return object.get();
@@ -70,14 +70,5 @@ public class Product_serviceImpl implements Product_service {
 
 
 
-    // static Product DoesProductExist(Optional<Product> product , Integer id){
-
-    //     if(product.isPresent()){
-    //         return product.get();
-    //     }
-    //     else{
-    //         throw new CustomerNotFoundException(id);
-    //     }
-    // }
     
 }

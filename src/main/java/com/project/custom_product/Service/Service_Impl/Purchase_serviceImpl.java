@@ -3,11 +3,7 @@ package com.project.custom_product.Service.Service_Impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.project.custom_product.Respository.customer_repository;
-import com.project.custom_product.Respository.product_repository;
 import com.project.custom_product.Respository.purchase_repository;
 
 import com.project.custom_product.Service.Purchase_service;
@@ -17,7 +13,7 @@ import com.project.custom_product.entities.Purchase;
 import com.project.custom_product.exception.PurchaseNotFoundExcpetion;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+
 
 
 @AllArgsConstructor
@@ -35,9 +31,6 @@ public class Purchase_serviceImpl implements Purchase_service {
      Product_serviceImpl product_service;
 
   
-
-
-
 
 
     @Override
@@ -83,9 +76,10 @@ public class Purchase_serviceImpl implements Purchase_service {
     }
 
     @Override
-    public void deletePurchase(Integer customer_id, Integer product_id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletePurchase'");
+    public void delete(Integer customer_id, Integer product_id) {
+        
+        purchase_repos.deletePurchaseByCustomerIdAndProductId(customer_id,product_id);
+        
     }
 
     @Override
@@ -94,7 +88,7 @@ public class Purchase_serviceImpl implements Purchase_service {
         Integer sum = 0;
         Optional<Purchase> purchase = purchase_repos.findByCustomerIdAndProductId(customer_id, product_id);
         Purchase checkPurchase = DoesObjectExist(purchase, customer_id, product_id);
-        //checkPurchase.setBill(checkPurchase.getBill());
+  
         try{
             if(checkPurchase.getTotal_quantities() > 0){
             sum += checkPurchase.getPrice() * checkPurchase.getTotal_quantities();
@@ -115,19 +109,16 @@ public class Purchase_serviceImpl implements Purchase_service {
     @Override
     public List<Purchase> getAllCustomersPurchased(Integer customer_id) {
     
-        
-        // 
-        return null;
+        return purchase_repos.findByCustomerId(customer_id);
     }
 
     @Override
     public List<Purchase> getAllProductssPurchased(Integer product_id) {
        
-        // return purchase_repository.findPurchaseByProductId(product_id);
-        return null;
+        return purchase_repos.findByProductId(product_id);
     }
     
-    static Purchase DoesObjectExist(Optional<Purchase> object, Integer customer_id, Integer product_id){
+    private Purchase DoesObjectExist(Optional<Purchase> object, Integer customer_id, Integer product_id){
 
         if(object.isPresent()){
             return object.get();
@@ -140,8 +131,8 @@ public class Purchase_serviceImpl implements Purchase_service {
     @Override
     public List<Purchase> getAllPurchases() {
        
-        // return (List<Purchase>) purchase_repository.findAll();
-        return null;
+        return (List<Purchase>) purchase_repos.findAll();
+       
     }
 
 

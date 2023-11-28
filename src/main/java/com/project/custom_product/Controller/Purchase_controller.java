@@ -1,9 +1,13 @@
 package com.project.custom_product.Controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -81,6 +85,54 @@ public class Purchase_controller {
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/customer/{customer_id}/product/{product_id}")
+    
+    public ResponseEntity<?> deletePurchase(@PathVariable Integer customer_id, @PathVariable Integer product_id){
+
+        purchase_service.delete(customer_id, product_id);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+    }
+
+    @GetMapping("/all/customer/{customer_id}")
+    public ResponseEntity<List<PurchaseDTO>> getAllpurchasesByCustomer(@PathVariable Integer customer_id){
+        
+        List<Purchase> purchases = purchase_service.getAllCustomersPurchased(customer_id);
+        
+        
+        return new ResponseEntity<> (purchases.stream()
+                .map(this::convertEntityToDto )
+                .collect(Collectors.toList()),HttpStatus.OK);
+    }
+
+
+     @GetMapping("/all/product/{product_id}")
+    public ResponseEntity<List<PurchaseDTO>> getAllpurchasesByProductId(@PathVariable Integer product_id){
+        
+        List<Purchase> purchases = purchase_service.getAllProductssPurchased(product_id);
+          
+        return new ResponseEntity<> (purchases.stream()
+                .map(this::convertEntityToDto )
+                .collect(Collectors.toList()),HttpStatus.OK);
+    }
+
+
+
+     @GetMapping("/all")
+    public ResponseEntity<List<PurchaseDTO>> getAllpurchases(){
+        
+
+        List<Purchase> purchases = purchase_service.getAllPurchases();
+          
+        return new ResponseEntity<> (purchases.stream()
+                .map(this::convertEntityToDto )
+                .collect(Collectors.toList()),HttpStatus.OK);
+       
+    }
+
+    
 
     
 

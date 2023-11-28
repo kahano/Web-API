@@ -12,7 +12,7 @@ public interface Purchase_service {
 
     Purchase updatePurchase( Integer customer_id, Integer product_id, Integer total_quantities);
 
-    void deletePurchase(Integer customer_id, Integer product_id);
+    void delete(Integer customer_id, Integer product_id);
 
     Purchase getTotalPricePurchase_per_Customer( Integer customer_id, Integer product_id);
 

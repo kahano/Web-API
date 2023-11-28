@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.Customer_service;
@@ -49,11 +47,8 @@ public class Customer_serviceImpl implements Customer_service  {
         updated_customer.setTelefon_number(customer.getTelefon_number());
         return customer_repos.save(updated_customer);
 
-        
-
     }
-        
-
+    
 
     @Override
     public Customer findCustomerById(Integer customer_id) {
@@ -81,19 +76,8 @@ public class Customer_serviceImpl implements Customer_service  {
     public List<Customer> getAllcustomers() {
      
         
-        return customer_repos.findAll();
+        return (List<Customer>)customer_repos.findAll();
     }
-
-    // static Customer DoesCustomerExist(Optional<Customer> customer , Integer customer_id){
-
-    //     if(customer.isPresent()){
-    //         return customer.get();
-    //     }
-    //     else{
-    //         throw new CustomerNotFoundException(customer_id);
-    //     }
-    // }
-
 
     // private Integer findIndexById(Integer customer_id){
 
