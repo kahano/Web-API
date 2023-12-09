@@ -6,6 +6,6 @@ Springboot building RESTAPI project
 
    Postman
 
-       [image](https://github.com/kahano/Customer_Product/assets/48335933/50fc9d31-9b1e-41a1-9b41-0063ef2d4428)
+    ![image](https://github.com/kahano/Customer_Product/assets/48335933/245bd473-0287-4f6c-aa3d-75c5ec1a9b29)
 
 
