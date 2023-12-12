@@ -94,7 +94,7 @@ public class purchase_repositoryTest {
        
        assertEquals(purch.get(), purchase1);
        assertNotEquals(purch.get(), purchase2);
-     //  assertNotEquals(purch2.get(), purchase1);
+       assertNotEquals(purch2.get(), purchase1);
 
        assertEquals(purch.get().getPrice(), purchase1.getPrice());
 
