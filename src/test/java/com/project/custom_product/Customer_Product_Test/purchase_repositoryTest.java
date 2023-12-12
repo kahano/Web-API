@@ -4,10 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.Arrays;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -81,6 +80,7 @@ public class purchase_repositoryTest {
 
         purchase1 = null;
         purchase2 = null;
+        purchase3 = null;
 
         purchase_repos.deleteAll();
 
