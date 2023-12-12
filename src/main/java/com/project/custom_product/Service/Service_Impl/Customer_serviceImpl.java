@@ -3,6 +3,7 @@ package com.project.custom_product.Service.Service_Impl;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.customer_repository;
@@ -21,6 +22,8 @@ public class Customer_serviceImpl implements Customer_service  {
 
 
 
+
+
     @Override
     public Customer saveCustomer(Customer customer) {
 
@@ -30,7 +33,7 @@ public class Customer_serviceImpl implements Customer_service  {
 
 
     @Override
-    public void deleteCustomerById(Integer customer_id) {
+    public void deleteCustomerById(Integer customer_id)  {
         
         Customer customer = customer_repos.findById(customer_id).get();
         customer_repos.delete(customer);
