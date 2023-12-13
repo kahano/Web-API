@@ -151,28 +151,28 @@ public class Purchase_serviceImpl implements Purchase_service {
        
     }
 
-    private boolean checkQuantities(Integer customer_id, Integer product_id){
+    // private boolean checkQuantities(Integer customer_id, Integer product_id){
 
-        Purchase purchase = this.findPurchaseBYId(customer_id, product_id);
-        Product product =  product_service.findProductById(product_id);
+    //     Purchase purchase = this.findPurchaseBYId(customer_id, product_id);
+    //     Product product =  product_service.findProductById(product_id);
 
-        boolean isPresent = false;
+    //     boolean isPresent = false;
 
-       try{
-            if(purchase.getTotal_quantities() <= product.getTotal_quantities()){
-                isPresent = true;
+    //    try{
+    //         if(purchase.getTotal_quantities() <= product.getTotal_quantities()){
+    //             isPresent = true;
                 
             
-            }
-       }
-       catch(Exception e){
+    //         }
+    //    }
+    //    catch(Exception e){
 
-            e.printStackTrace();
+    //         e.printStackTrace();
             
-       }
-       return isPresent;
+    //    }
+    //    return isPresent;
 
-    }
+    // }
 
   
 

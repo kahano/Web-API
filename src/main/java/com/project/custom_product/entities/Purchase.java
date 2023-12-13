@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 
 @Entity
@@ -57,6 +58,9 @@ public class Purchase {
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
+
+
+    
 
 
     

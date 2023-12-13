@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -53,5 +54,7 @@ public class Product {
     @JsonIgnore
     @OneToMany(mappedBy = "product",cascade = CascadeType.ALL )
     private List<Purchase> purchases ;
+
+    
 
 }
