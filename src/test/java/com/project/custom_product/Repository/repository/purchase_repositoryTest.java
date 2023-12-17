@@ -1,23 +1,4 @@
-package com.project.custom_product.Customer_Product_Test;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
-
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+package com.project.custom_product.Repository.repository;
 
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Respository.product_repository;
@@ -25,11 +6,23 @@ import com.project.custom_product.Respository.purchase_repository;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.entities.Product;
 import com.project.custom_product.entities.Purchase;
-
 import jakarta.persistence.EntityNotFoundException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class purchase_repositoryTest {
 
     @Autowired
@@ -102,10 +95,7 @@ public class purchase_repositoryTest {
       
         assertEquals(purch.get(), purchase1);
         assertNotEquals(purch.get(), purchase2);
-          
-      
-
-
+               
     }
 
     @Test
@@ -149,12 +139,15 @@ public class purchase_repositoryTest {
        Optional<Purchase> purchase2 = purchase_repos.findByCustomerIdAndProductId(customer1.getId(),product1.getId());
 
        assertTrue(!purchase2.isPresent()); // verifiying that the deleted entity no longer exists. 
-        
 
        
-    
-     
+
        
+
+       
+
+       
+              
     
     }   
 }

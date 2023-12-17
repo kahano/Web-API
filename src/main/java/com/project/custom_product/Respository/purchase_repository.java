@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 
 @Repository
 public interface purchase_repository extends CrudRepository<Purchase,Integer> {
+    
 
     Optional<Purchase> findByCustomerIdAndProductId(Integer customer_id, Integer product_id);
    

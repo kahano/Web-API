@@ -37,7 +37,7 @@ public class Product {
     @Column(name = "product_name" , nullable = false)
     private String product_name;
 
-
+    
     @Column(name = "category")
     private String category;
 

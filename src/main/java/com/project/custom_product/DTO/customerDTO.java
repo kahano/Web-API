@@ -20,9 +20,7 @@ public class customerDTO{
     private String last_name;
     private String address;
     private String telefon_number;
-    // private Integer product_id;
-    // private String product_name;
-    // private Integer total_quantities;
+
 
    
     
