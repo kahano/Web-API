@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.project.MapperDTO.PurchaseMapper;
 import com.project.custom_product.DTO.PurchaseDTO;
 import com.project.custom_product.Service.Service_Impl.Purchase_serviceImpl;
 import com.project.custom_product.entities.Purchase;
@@ -30,21 +32,21 @@ public class Purchase_controller {
 
     
     @Autowired
-    private ModelMapper mapper;
+    private PurchaseMapper mapper;
 
 
-    private  PurchaseDTO convertEntityToDto(Purchase purchase){
+    // private  PurchaseDTO convertEntityToDto(Purchase purchase){
         
 
-        PurchaseDTO purchaseDTO = mapper.map(purchase, PurchaseDTO.class);
-        return purchaseDTO;
-    }
+    //     PurchaseDTO purchaseDTO = mapper.convertPurchaseToDto(purchase);
+    //     return purchaseDTO;
+    // }
 
 
     @PostMapping("/customer/{customer_id}/product/{product_id}") // creating an order for a customer 
     public ResponseEntity<PurchaseDTO> create(@RequestBody PurchaseDTO purchase_dto, @PathVariable Integer customer_id, @PathVariable Integer product_id){
 
-        Purchase purchase = mapper.map(purchase_dto, Purchase.class);
+        Purchase purchase = mapper.convertPurchaseDTO_ToPurchase(purchase_dto);
         purchase_service.savePurchase(purchase,customer_id,product_id);
         
         return new ResponseEntity<>(purchase_dto,HttpStatus.CREATED);
@@ -56,7 +58,7 @@ public class Purchase_controller {
 
         Purchase purchase = purchase_service.findPurchaseBYId(customer_id, product_id);
 
-        PurchaseDTO purchase_dto = convertEntityToDto(purchase);
+        PurchaseDTO purchase_dto = mapper.convertPurchaseToDto(purchase);
 
         return new ResponseEntity<>(purchase_dto,HttpStatus.OK);
 
@@ -66,9 +68,9 @@ public class Purchase_controller {
     public ResponseEntity<PurchaseDTO> update(@RequestBody PurchaseDTO purchase_dto, @PathVariable Integer customer_id, 
            @PathVariable Integer product_id){
 
-            Purchase purchase = mapper.map(purchase_dto, Purchase.class);
+            Purchase purchase = mapper.convertPurchaseDTO_ToPurchase(purchase_dto);
             purchase_service.updatePurchase( customer_id, product_id,purchase.getTotal_quantities());
-            PurchaseDTO dto = convertEntityToDto(purchase);
+            PurchaseDTO dto = mapper.convertPurchaseToDto(purchase);
 
             return new ResponseEntity<>(dto,HttpStatus.OK);
     }
@@ -80,7 +82,7 @@ public class Purchase_controller {
 
         Purchase purchase= purchase_service.getTotalPricePurchase_per_Customer(customer_id,product_id);
 
-        PurchaseDTO dto = convertEntityToDto(purchase);
+        PurchaseDTO dto = mapper.convertPurchaseToDto(purchase);
         
 
         return new ResponseEntity<>(dto,HttpStatus.OK);
@@ -103,7 +105,7 @@ public class Purchase_controller {
         
         
         return new ResponseEntity<> (purchases.stream()
-                .map(this::convertEntityToDto )
+                .map(mapper::convertPurchaseToDto )
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 
@@ -114,7 +116,7 @@ public class Purchase_controller {
         List<Purchase> purchases = purchase_service.getAllProductssPurchased(product_id);
           
         return new ResponseEntity<> (purchases.stream()
-                .map(this::convertEntityToDto )
+                .map(mapper::convertPurchaseToDto )
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 
@@ -127,7 +129,7 @@ public class Purchase_controller {
         List<Purchase> purchases = purchase_service.getAllPurchases();
           
         return new ResponseEntity<> (purchases.stream()
-                .map(this::convertEntityToDto )
+                .map(mapper::convertPurchaseToDto )
                 .collect(Collectors.toList()),HttpStatus.OK);
        
     }

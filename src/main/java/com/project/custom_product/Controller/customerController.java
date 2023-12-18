@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.project.MapperDTO.CustomerMapper;
 import com.project.custom_product.DTO.customerDTO;
 import com.project.custom_product.Service.Service_Impl.Customer_serviceImpl;
 import com.project.custom_product.entities.Customer;
@@ -36,21 +38,23 @@ public class customerController {
     @Autowired
     private Customer_serviceImpl custom_service;
 
-    @Autowired
-    private ModelMapper mapper;
+   
+
+    @Autowired 
+    private CustomerMapper mapper;
 
     //private EntityToDto<Customer> DTO;
 
 
-    private customerDTO convertEntityToDto(Customer customer){
+    // private customerDTO convertEntityToDto(Customer customer){
         
         
-         mapper.getConfiguration()
-                .setMatchingStrategy(MatchingStrategies.LOOSE);
+    //      mapper.getConfiguration()
+    //             .setMatchingStrategy(MatchingStrategies.LOOSE);
 
-        customerDTO customerDTO = mapper.map(customer,customerDTO.class);
-        return customerDTO;
-    }
+    //     customerDTO customerDTO = mapper.map(customer,customerDTO.class);
+    //     return customerDTO;
+    // }
 
 
    
@@ -62,7 +66,7 @@ public class customerController {
     public ResponseEntity<customerDTO> create (@RequestBody customerDTO customerDTO){
 
         
-        Customer customer = mapper.map(customerDTO,Customer.class);
+        Customer customer = mapper.convertCustomerDTO_TOCustomer(customerDTO);
 
         custom_service.saveCustomer(customer);
 
@@ -77,7 +81,7 @@ public class customerController {
 
 
         Customer customer = custom_service.findCustomerById(id);
-        customerDTO customerDTO = mapper.map(customer,customerDTO.class);
+        customerDTO customerDTO = mapper.converCustomerToDto(customer);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
         
 
@@ -92,7 +96,7 @@ public class customerController {
 
        
         return new ResponseEntity<> (customers.stream()
-                .map(this::convertEntityToDto )
+                .map(mapper::converCustomerToDto )
                 .collect(Collectors.toList()),HttpStatus.OK);
     }
 
@@ -100,12 +104,12 @@ public class customerController {
     public ResponseEntity<customerDTO> update(@PathVariable Integer id, @RequestBody customerDTO customer_dto){
 
 
-          Customer customer = mapper.map(customer_dto,Customer.class);
+          Customer customer = mapper.convertCustomerDTO_TOCustomer(customer_dto);
        
          custom_service.updateCustomer(id, customer);
 
         
-        customerDTO customerDTO = convertEntityToDto(customer);
+        customerDTO customerDTO = mapper.converCustomerToDto(customer);
         return new ResponseEntity<>(customerDTO,HttpStatus.OK);
 
   

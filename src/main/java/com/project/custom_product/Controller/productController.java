@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.MapperDTO.ProductMapper;
 import com.project.custom_product.DTO.productDTO;
 import com.project.custom_product.Service.Service_Impl.Product_serviceImpl;
 
@@ -30,13 +31,15 @@ public class productController {
     private Product_serviceImpl product_service;
 
     @Autowired
-    private ModelMapper mapper;
+    private ProductMapper mapper;
 
-     private productDTO convertEntityToDto(Product prod){
+    
+
+    // private productDTO convertEntityToDto(Product prod){
         
-        productDTO productDTO = mapper.map(prod,productDTO.class);
-        return productDTO;
-    }
+    //     productDTO productDTO = mapper.map(prod,productDTO.class);
+    //     return productDTO;
+    // }
 
 
    
@@ -48,7 +51,7 @@ public class productController {
     public ResponseEntity<productDTO> create (@RequestBody productDTO prodDTO){
 
         
-        Product product = mapper.map(prodDTO,Product.class);
+        Product product = mapper.converProducDto_TOProduct(prodDTO);
 
         product_service.saveProduct(product);
 
@@ -63,7 +66,7 @@ public class productController {
 
 
         Product product = product_service.findProductById(id);
-        productDTO productDTO = mapper.map(product,productDTO.class);
+        productDTO productDTO = mapper.convertProductToDto(product);
         return new ResponseEntity<>(productDTO,HttpStatus.OK);
         
 
@@ -77,7 +80,7 @@ public class productController {
         List<Product> customers = product_service.getProducts();
           
         return new ResponseEntity<> (customers.stream()
-                .map(this::convertEntityToDto )
+                .map(mapper::convertProductToDto )
                 .collect(Collectors.toList()),HttpStatus.OK);
 
      
@@ -87,12 +90,12 @@ public class productController {
     public ResponseEntity<productDTO> updateProduct(@PathVariable Integer id, @RequestBody productDTO product_dto){
 
 
-          Product product = mapper.map(product_dto,Product.class);
+          Product product = mapper.converProducDto_TOProduct(product_dto);
        
          product_service.updateProduct( id, product);
 
         
-        productDTO product_DTO = convertEntityToDto(product);
+        productDTO product_DTO = mapper.convertProductToDto(product);
         return new ResponseEntity<>(product_DTO,HttpStatus.OK);
 
   
