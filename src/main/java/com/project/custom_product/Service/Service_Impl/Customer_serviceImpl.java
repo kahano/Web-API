@@ -83,15 +83,7 @@ public class Customer_serviceImpl implements Customer_service  {
         return (List<Customer>)customer_repos.findAll();
     }
 
-    // private Integer findIndexById(Integer customer_id){
-
-    //     return IntStream.range(0, customer_repos.findAll().size())
-    //             .filter(index -> getAllcustomers().get(index).getCustomer_id() == (customer_id))
-    //             .findFirst()
-    //             .orElseThrow();
-
-
-    // }
+    
 
 
 
