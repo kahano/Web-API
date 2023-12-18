@@ -1,18 +1,15 @@
 package com.project.custom_product.Service.Service_Impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.purchase_repository;
-
 import com.project.custom_product.Service.Purchase_service;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.entities.Product;
 import com.project.custom_product.entities.Purchase;
 import com.project.custom_product.exception.PurchaseNotFoundExcpetion;
-
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 
@@ -58,10 +55,11 @@ public class Purchase_serviceImpl implements Purchase_service {
     }
 
     @Override
-    public Purchase findPurchaseBYId(Integer customer_id, Integer product_id) {
+    public Purchase findPurchaseBYId(Integer customer_id, Integer product_id) throws PurchaseNotFoundExcpetion {
         
-        Optional<Purchase> purchase = purchase_repos.findByCustomerIdAndProductId(customer_id, product_id);
-        return DoesObjectExist(purchase,customer_id, product_id);
+        return  purchase_repos.findByCustomerIdAndProductId(customer_id, product_id)
+        .orElseThrow(() -> new PurchaseNotFoundExcpetion(customer_id, product_id));
+        // return DoesObjectExist(purchase,customer_id, product_id);
        
     }
 
@@ -134,15 +132,15 @@ public class Purchase_serviceImpl implements Purchase_service {
         return purchase_repos.findByProductId(product_id);
     }
     
-    private Purchase DoesObjectExist(Optional<Purchase> object, Integer customer_id, Integer product_id){
+    // private Purchase DoesObjectExist(Optional<Purchase> object, Integer customer_id, Integer product_id){
 
-        if(object.isPresent()){
-            return object.get();
-        }
-        else{
-            throw new PurchaseNotFoundExcpetion(customer_id, product_id);
-        }
-    }
+    //     if(object.isPresent()){
+    //         return object.get();
+    //     }
+    //     else{
+    //         throw new PurchaseNotFoundExcpetion(customer_id, product_id);
+    //     }
+    // }
 
     @Override
     public List<Purchase> getAllPurchases() {

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface product_repository extends JpaRepository<Product,Integer> {
     
     @Query(
-        value = "select * from product where product_name =: product_name ",
+        value = "select * from product where product_name = :product_name ",
         nativeQuery = true
 
     )

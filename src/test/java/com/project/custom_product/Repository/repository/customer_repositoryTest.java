@@ -11,6 +11,8 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 
 @DataJpaTest(  properties = {
     "spring.jpa.properties.javax.persistence.validation.mode=none"
@@ -79,6 +81,8 @@ class customer_repositoryTest {
 
          Assertions.assertThat(customers).isNotNull();
 
+         Assertions.assertThat(customers).size().isEqualTo(2);
+
     }
 
 
@@ -101,5 +105,39 @@ class customer_repositoryTest {
          Assertions.assertThat(Iscustomer2_exists).isNotNull();
 
     }
+
+    @Test 
+
+     public void check_updateCustomer(){
+
+        Customer customer = repos.findById(customer1.getId()).get();
+        customer.setFirst_name("Jack");
+        customer.setLast_name("Henderson");
+        customer.setAddress("st. ullevaal 10");
+        customer.setTelefon_number("111111111");
+
+        Customer updated = repos.save(customer);
+
+        Assertions.assertThat(updated.getFirst_name()).isNotNull();
+        Assertions.assertThat(updated.getLast_name()).isNotNull();
+        Assertions.assertThat(updated.getAddress()).isNotNull();
+        Assertions.assertThat(updated.getTelefon_number()).isNotNull();
+
+
+     }
+
+     @Test
+      public void check_deleteCustomer(){
+
+        Customer customer = repos.findById(customer1.getId()).get();
+
+        Assertions.assertThat(customer).isNotNull();
+
+        repos.delete(customer);
+
+        Optional<Customer>  check_deleted_customer = repos.findById(customer1.getId());
+
+        Assertions.assertThat(check_deleted_customer).isEmpty();
+      }
 
 }

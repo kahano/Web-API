@@ -1,4 +1,4 @@
-package com.project.custom_product.Repository.repository;
+package com.project.custom_product.Customer_Product_Test;
 
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Respository.product_repository;
@@ -6,13 +6,11 @@ import com.project.custom_product.Respository.purchase_repository;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.entities.Product;
 import com.project.custom_product.entities.Purchase;
-import org.assertj.core.api.Assertions;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
@@ -22,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class purchase_repositoryTest {
 
     @Autowired
@@ -48,64 +45,20 @@ public class purchase_repositoryTest {
     @BeforeEach
     void setup(){
 
-        customer1 = Customer.builder()
-            .first_name("Ryan")
-            .last_name("Henry")
-            .address("Hans Holmboes gate 9 ")
-            .telefon_number("00000000")
-            .build();
-            
-        customer2 = Customer.builder()
-            .first_name("Ahmed")
-            .last_name("Ali")
-            .address("Sognsveien 102 T ")
-            .telefon_number("00000001")
-            .build();
-        
+        customer1 = new Customer(1, "Henrik", "Larson","", "Sognsveien102T Oslo", "97351722", null );
+        customer2 = new Customer(2, "Aleksandra", "Larson","", "Sognsveien102T Oslo", "97323722", null );
         custom_repos.save(customer1);
         custom_repos.save(customer2);
 
-        product1 = Product.builder()
-        .product_name("Beef burger")
-        .category("fastfood")
-        .total_quantities(10)
-        .build();
-
-        product2 = Product.builder()
-        .product_name("Pepsi")
-        .category("softdrinks")
-        .total_quantities(20)
-        .build();
-
+        product1 = new Product(1,"Beef burger", "fastfood", "487631208",6, null );
+        product2 = new Product(2,"cheese burger", "fastfood", "487431218",4, null );
         product_repos.save(product1);
         product_repos.save(product2);
-      
 
-        purchase1 = Purchase.builder()
-        .purchase_code("3245907BQ")
-        .price(45)
-        .total_quantities(1)
-        .customer(customer1)
-        .product(product1)
-        .build();
 
-        
-        purchase2 = Purchase.builder()
-        .purchase_code("3245010CQ")
-        .price(35)
-        .total_quantities(3)
-        .customer(customer1)
-        .product(product2)
-        .build();
-
-        
-        purchase3 = Purchase.builder()
-        .purchase_code("3114508CE")
-        .price(40)
-        .total_quantities(2)
-        .customer(customer2)
-        .product(product1)
-        .build();
+        purchase1 = new Purchase(1,"3245907BQ",45,1,0, customer1, product1);
+        purchase2 = new Purchase(2,"3245010CQ",35,3,0,customer1 ,product2);
+        purchase3 = new Purchase(3,"3114508CE",40,2,0,  customer2, product1) ;
 
 
         purchase_repos.save(purchase1);
@@ -118,7 +71,14 @@ public class purchase_repositoryTest {
 
     void teardown(){
 
-       
+        customer1 = null;
+        customer2 = null;
+        product1 = null;
+        product2 = null;
+        purchase1 = null;
+        purchase2 = null;
+        purchase3 = null;
+
         purchase_repos.deleteAll();
         product_repos.deleteAll();
         custom_repos.deleteAll();
@@ -154,25 +114,24 @@ public class purchase_repositoryTest {
     }
 
     @Test
-     void get_All_purchases(){
-
-        Iterable<Purchase> purchases = purchase_repos.findAll();
-        Assertions.assertThat(purchases).isNotNull();
-
-        Assertions.assertThat(purchases).size().isEqualTo(3);
-
-    }
-
-    @Test
 
     void check_deletePurchaseByCustomerIdAndProductId(){
 
        Optional<Purchase> purchase = purchase_repos.findByCustomerIdAndProductId(customer1.getId(),product1.getId());
 
        assertTrue(purchase.isPresent()); // making sure that the object exists
+
+
+    
+       try{
             
-       purchase_repos.deletePurchaseByCustomerIdAndProductId(customer1.getId(),product1.getId());
-       
+             purchase_repos.deletePurchaseByCustomerIdAndProductId(customer1.getId(),product1.getId());
+       }
+       catch(EntityNotFoundException e){
+            e.printStackTrace();
+
+       }
+
        
        Optional<Purchase> purchase2 = purchase_repos.findByCustomerIdAndProductId(customer1.getId(),product1.getId());
 

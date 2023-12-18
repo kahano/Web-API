@@ -57,20 +57,21 @@ public class Customer_serviceImpl implements Customer_service  {
     public Customer findCustomerById(Integer customer_id) {
      
 
-        Optional<Customer> customer = customer_repos.findById(customer_id);
-        Customer check =  DoesObjectExist(customer, customer_id);
-        return check;
+        return customer_repos.findById(customer_id).
+            orElseThrow(()-> new CustomerNotFoundException(customer_id));
+        // Customer check =  DoesObjectExist(customer, customer_id);
+        // return check;
     }
 
-    static Customer DoesObjectExist(Optional<Customer> object, Integer id){
+    // static Customer DoesObjectExist(Optional<Customer> object, Integer id){
 
-        if(object.isPresent()){
-            return object.get();
-        }
-        else{
-            throw new CustomerNotFoundException(id);
-        }
-    }
+    //     if(object.isPresent()){
+    //         return object.get();
+    //     }
+    //     else{
+    //         throw new CustomerNotFoundException(id);
+    //     }
+    // }
 
 
 

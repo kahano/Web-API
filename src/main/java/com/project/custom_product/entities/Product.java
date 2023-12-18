@@ -1,28 +1,17 @@
 package com.project.custom_product.entities;
 
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import java.util.Objects;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 @Data
 
 @Entity
@@ -37,13 +26,14 @@ public class Product {
     @Column(name = "product_name" , nullable = false)
     private String product_name;
 
-    
+
+
     @Column(name = "category")
     private String category;
 
     
-    @Nonnull
-    @Column(name =  "serial_code", nullable = false, unique = true)
+
+    @Column(name =  "serial_code", unique = true)
     private String serial_code;
     
     @Nonnull

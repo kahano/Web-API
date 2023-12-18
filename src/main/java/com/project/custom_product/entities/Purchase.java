@@ -12,10 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import java.util.Objects;
+
 
 
 @Entity
@@ -23,6 +24,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+@Builder
 @Table(name = "purchase", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"customer_id", "product_id"})
 })
@@ -31,11 +33,11 @@ public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id" , nullable = false)
+    @Column(name = "id" )
     private Integer id;
 
     @Nonnull
-    @Column(name = "purchase_code", nullable = false)
+    @Column(name = "purchase_code", unique = true)
     private String purchase_code;
 
     @Nonnull
@@ -46,8 +48,8 @@ public class Purchase {
     @Column(name = "total_quantities", nullable = false)
     private Integer total_quantities;
 
-    @Nonnull
-    @Column(name = "bill", nullable = false)
+    
+    @Column(name = "bill")
     private Integer bill;
 
     @ManyToOne(optional = false)
