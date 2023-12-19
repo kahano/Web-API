@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class Product_serviceImpl implements Product_service {
@@ -26,9 +26,6 @@ public class Product_serviceImpl implements Product_service {
 
     @Override
     public Product findProductById(Integer id) {
-
-        // Optional<Product> product = productRepository.findById(id);
-        // return DoesObjectExist(product,id);
 
         return productRepository.findById(id).
                 orElseThrow(()-> new ProductNotFoundException(id));
@@ -61,17 +58,7 @@ public class Product_serviceImpl implements Product_service {
         return (List<Product>) productRepository.findAll();
     }
 
-    // private Product DoesObjectExist(Optional<Product> object, Integer id){
-
-    //     if(object.isPresent()){
-    //         return object.get();
-    //     }
-    //     else{
-    //         throw new ProductNotFoundException(id);
-    //     }
-    // }
-
-
+   
 
     
 }

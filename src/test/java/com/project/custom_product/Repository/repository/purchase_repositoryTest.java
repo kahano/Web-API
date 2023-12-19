@@ -69,12 +69,14 @@ public class purchase_repositoryTest {
         .product_name("Beef burger")
         .category("fastfood")
         .total_quantities(10)
+                .serial_code("74631f104232aqx")
         .build();
 
         product2 = Product.builder()
         .product_name("Pepsi")
         .category("softdrinks")
         .total_quantities(20)
+                .serial_code("74632f804232aqx")
         .build();
 
         product_repos.save(product1);
@@ -126,6 +128,13 @@ public class purchase_repositoryTest {
     }
     
     @Test
+    void save_All_purchases(){
+        Purchase purchase_ny = purchase_repos.save(purchase1);
+        Assertions.assertThat(purchase_ny).isNotNull();
+        Assertions.assertThat(purchase_ny).isEqualTo(purchase1);
+    }
+
+    @Test
     void check_findByCustomerIdAndProductId(){
 
         Optional<Purchase> purch =  purchase_repos.findByCustomerIdAndProductId(customer1.getId(),product1.getId());
@@ -134,6 +143,7 @@ public class purchase_repositoryTest {
         assertNotEquals(purch.get(), purchase2);
                
     }
+
 
     @Test
     void check_findPurchasesByCustomerId(){

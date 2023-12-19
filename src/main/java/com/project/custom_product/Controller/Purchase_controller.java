@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.MapperDTO.PurchaseMapper;
 import com.project.custom_product.DTO.PurchaseDTO;
+import com.project.custom_product.MapperDTO.PurchaseMapper;
 import com.project.custom_product.Service.Service_Impl.Purchase_serviceImpl;
 import com.project.custom_product.entities.Purchase;
 
@@ -33,14 +33,6 @@ public class Purchase_controller {
     
     @Autowired
     private PurchaseMapper mapper;
-
-
-    // private  PurchaseDTO convertEntityToDto(Purchase purchase){
-        
-
-    //     PurchaseDTO purchaseDTO = mapper.convertPurchaseToDto(purchase);
-    //     return purchaseDTO;
-    // }
 
 
     @PostMapping("/customer/{customer_id}/product/{product_id}") // creating an order for a customer 

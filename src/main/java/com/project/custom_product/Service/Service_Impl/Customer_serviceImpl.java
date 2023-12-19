@@ -1,15 +1,13 @@
 package com.project.custom_product.Service.Service_Impl;
 
-import java.util.List;
-import java.util.Optional;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.Customer_service;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.exception.CustomerNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -18,6 +16,10 @@ public class Customer_serviceImpl implements Customer_service  {
 
     @Autowired
     private customer_repository customer_repos;
+
+    public Customer_serviceImpl(customer_repository repos){
+        customer_repos = repos;
+    }
 
 
 
@@ -59,22 +61,10 @@ public class Customer_serviceImpl implements Customer_service  {
 
         return customer_repos.findById(customer_id).
             orElseThrow(()-> new CustomerNotFoundException(customer_id));
-        // Customer check =  DoesObjectExist(customer, customer_id);
-        // return check;
+       
     }
 
-    // static Customer DoesObjectExist(Optional<Customer> object, Integer id){
-
-    //     if(object.isPresent()){
-    //         return object.get();
-    //     }
-    //     else{
-    //         throw new CustomerNotFoundException(id);
-    //     }
-    // }
-
-
-
+   
 
     @Override
     public List<Customer> getAllcustomers() {
