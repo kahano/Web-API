@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.MapperDTO.ProductMapper;
 import com.project.custom_product.DTO.productDTO;
+import com.project.custom_product.MapperDTO.ProductMapper;
 import com.project.custom_product.Service.Service_Impl.Product_serviceImpl;
 
 import com.project.custom_product.entities.Product;
@@ -33,19 +33,8 @@ public class productController {
     @Autowired
     private ProductMapper mapper;
 
-    
-
-    // private productDTO convertEntityToDto(Product prod){
-        
-    //     productDTO productDTO = mapper.map(prod,productDTO.class);
-    //     return productDTO;
-    // }
-
 
    
-
-
-
   
     @PostMapping
     public ResponseEntity<productDTO> create (@RequestBody productDTO prodDTO){

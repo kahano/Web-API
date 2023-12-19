@@ -1,32 +1,17 @@
 package com.project.custom_product.Controller;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-
-import org.springframework.http.ResponseEntity;
-
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.project.MapperDTO.CustomerMapper;
 import com.project.custom_product.DTO.customerDTO;
+import com.project.custom_product.MapperDTO.CustomerMapper;
 import com.project.custom_product.Service.Service_Impl.Customer_serviceImpl;
 import com.project.custom_product.entities.Customer;
-
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 
@@ -43,24 +28,7 @@ public class customerController {
     @Autowired 
     private CustomerMapper mapper;
 
-    //private EntityToDto<Customer> DTO;
-
-
-    // private customerDTO convertEntityToDto(Customer customer){
-        
-        
-    //      mapper.getConfiguration()
-    //             .setMatchingStrategy(MatchingStrategies.LOOSE);
-
-    //     customerDTO customerDTO = mapper.map(customer,customerDTO.class);
-    //     return customerDTO;
-    // }
-
-
    
-
-
-
   
     @PostMapping
     public ResponseEntity<customerDTO> create (@RequestBody customerDTO customerDTO){

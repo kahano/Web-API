@@ -1,4 +1,4 @@
-package com.project.MapperDTO;
+package com.project.custom_product.MapperDTO;
 
 import org.springframework.stereotype.Component;
 
@@ -15,6 +15,7 @@ public class ProductMapper {
         return productDTO.builder()
         .product_name(product.getProduct_name())
         .category(product.getCategory())
+        .serial_code(product.getSerial_code())
         .total_quantities(product.getTotal_quantities())
         .build();
     }
@@ -24,6 +25,7 @@ public class ProductMapper {
         return Product.builder()
         .product_name(product.getProduct_name())
         .category(product.getCategory())
+        .serial_code(product.getSerial_code())
         .total_quantities(product.getTotal_quantities())
         .build();
     }
