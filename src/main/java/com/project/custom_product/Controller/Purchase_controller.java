@@ -24,7 +24,7 @@ import com.project.custom_product.entities.Purchase;
 
 
 @RestController
-@RequestMapping("/purchases")
+@RequestMapping("/api/purchases")
 public class Purchase_controller {
 
     @Autowired
