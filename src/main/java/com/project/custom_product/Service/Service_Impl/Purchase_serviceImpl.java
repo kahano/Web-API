@@ -69,24 +69,13 @@ public class Purchase_serviceImpl implements Purchase_service {
     public Purchase updatePurchase( Integer customer_id, Integer product_id, Integer total_quantities) {
         
           Purchase updated_purchase = this.findPurchaseBYId(customer_id, product_id);
-          Product product =  product_service.findProductById(product_id);
+         // Product product =  product_service.findProductById(product_id);
           Integer value = 0;
 
-         try{
-             if(total_quantities <= product.getTotal_quantities()){
-                 value += updated_purchase.getPrice() *  total_quantities;
-               
             
-             }
-            
-
-      
-       }catch(Exception e){
-             e.printStackTrace();
-       }
-       updated_purchase.setTotal_quantities(total_quantities);
-       updated_purchase.setBill(value);
-   
+        updated_purchase.setTotal_quantities(total_quantities);
+        updated_purchase.setBill(value);
+    
         
         return purchase_repos.save(updated_purchase);
        

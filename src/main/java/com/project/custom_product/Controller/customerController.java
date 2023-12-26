@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api/v1/customers")
 public class customerController {
 
 
@@ -31,6 +32,7 @@ public class customerController {
    
   
     @PostMapping
+    @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<customerDTO> create (@RequestBody customerDTO customerDTO){
 
         
@@ -44,7 +46,7 @@ public class customerController {
     }
 
     @GetMapping("/{id}")
-
+    @PreAuthorize(value = "hasAuthority('customer:read')")
     public ResponseEntity<customerDTO> getCustommer(@PathVariable Integer id){
 
 
@@ -57,7 +59,7 @@ public class customerController {
 
     
     @GetMapping
-
+    @PreAuthorize(value = "hasAuthority('customer:read')")
     public ResponseEntity<List<customerDTO>> findAllCustomers(){
         
         List<Customer> customers = custom_service.getAllcustomers();
@@ -69,6 +71,7 @@ public class customerController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<customerDTO> update(@PathVariable Integer id, @RequestBody customerDTO customer_dto){
 
 
@@ -86,6 +89,7 @@ public class customerController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<?> delete_customer(@PathVariable Integer id){
         custom_service.deleteCustomerById(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);

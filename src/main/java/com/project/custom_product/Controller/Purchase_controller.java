@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ import com.project.custom_product.entities.Purchase;
 
 
 @RestController
-@RequestMapping("/api/purchases")
+@RequestMapping("/api/v2/purchases")
 public class Purchase_controller {
 
     @Autowired
@@ -36,6 +37,7 @@ public class Purchase_controller {
 
 
     @PostMapping("/customer/{customer_id}/product/{product_id}") // creating an order for a customer 
+    @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<PurchaseDTO> create(@RequestBody PurchaseDTO purchase_dto, @PathVariable Integer customer_id, @PathVariable Integer product_id){
 
         Purchase purchase = mapper.convertPurchaseDTO_ToPurchase(purchase_dto);
@@ -46,6 +48,7 @@ public class Purchase_controller {
     }
 
     @GetMapping("/customer/{customer_id}/product/{product_id}") // showing the order to the customer 
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
     public ResponseEntity<PurchaseDTO> getPurchase(@PathVariable Integer customer_id, @PathVariable Integer product_id){
 
         Purchase purchase = purchase_service.findPurchaseBYId(customer_id, product_id);
@@ -57,6 +60,7 @@ public class Purchase_controller {
     }
 
     @PutMapping("/update/customer/{customer_id}/product/{product_id}") // updating the number of orders
+    @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<PurchaseDTO> update(@RequestBody PurchaseDTO purchase_dto, @PathVariable Integer customer_id, 
            @PathVariable Integer product_id){
 
@@ -69,7 +73,7 @@ public class Purchase_controller {
 
 
     @GetMapping("/totalprice/customer/{customer_id}/product/{product_id}") // showing the bill after ordering
-
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
     public ResponseEntity<PurchaseDTO> getBillForPurchase(@PathVariable Integer customer_id, @PathVariable Integer product_id){
 
         Purchase purchase= purchase_service.getTotalPricePurchase_per_Customer(customer_id,product_id);
@@ -81,7 +85,7 @@ public class Purchase_controller {
     }
 
     @DeleteMapping("/delete/customer/{customer_id}/product/{product_id}")
-    
+    @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<?> deletePurchase(@PathVariable Integer customer_id, @PathVariable Integer product_id){
 
         purchase_service.delete(customer_id, product_id);
@@ -91,6 +95,7 @@ public class Purchase_controller {
     }
 
     @GetMapping("/all/customer/{customer_id}")
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
     public ResponseEntity<List<PurchaseDTO>> getAllpurchasesByCustomer(@PathVariable Integer customer_id){
         
         List<Purchase> purchases = purchase_service.getAllCustomersPurchased(customer_id);
@@ -103,6 +108,7 @@ public class Purchase_controller {
 
 
      @GetMapping("/all/product/{product_id}")
+     @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
     public ResponseEntity<List<PurchaseDTO>> getAllpurchasesByProductId(@PathVariable Integer product_id){
         
         List<Purchase> purchases = purchase_service.getAllProductssPurchased(product_id);
@@ -115,9 +121,9 @@ public class Purchase_controller {
 
 
      @GetMapping("/all")
+     @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
     public ResponseEntity<List<PurchaseDTO>> getAllpurchases(){
         
-
         List<Purchase> purchases = purchase_service.getAllPurchases();
           
         return new ResponseEntity<> (purchases.stream()

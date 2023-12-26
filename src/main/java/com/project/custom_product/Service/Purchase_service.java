@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.project.custom_product.entities.Purchase;
 
+import jakarta.transaction.Transactional;
+
 public interface Purchase_service {
     
     Purchase savePurchase(Purchase purchase, Integer customer_id, Integer product_id);
@@ -15,7 +17,7 @@ public interface Purchase_service {
 
     void delete(Integer customer_id, Integer product_id);
 
-
+    @Transactional
     Purchase getTotalPricePurchase_per_Customer( Integer customer_id, Integer product_id);
 
     List<Purchase> getAllCustomersPurchased(Integer customer_id);

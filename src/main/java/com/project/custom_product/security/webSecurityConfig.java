@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -17,11 +18,12 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 
 import com.project.custom_product.AppUser.Role;
-import com.project.custom_product.AppUser.UserPermission;
+
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class webSecurityConfig {
     
    
@@ -35,22 +37,6 @@ public class webSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/","index","/css/*", "/js/*").permitAll()
-               // .requestMatchers("/api/**").hasRole(Role.CUSTOMER.name())
-                .requestMatchers(HttpMethod.POST,"/purchases/**" ).hasAuthority(UserPermission.PURCHASE_WRITE.getPermission())
-                .requestMatchers(HttpMethod.PUT,"/purchases/**" ).hasAuthority(UserPermission.PURCHASE_WRITE.getPermission())
-                //.requestMatchers(HttpMethod.GET,"/purchases/**" ).hasAuthority(UserPermission.PURCHASE_READ.getPermission())
-                .requestMatchers(HttpMethod.DELETE,"/purchases/**" ).hasAuthority(UserPermission.PURCHASE_WRITE.getPermission())
-                .requestMatchers(HttpMethod.GET,"/products/**" ).hasAnyRole(Role.ADMIN.name(),Role.CUSTOMER.name())
-
-               // .requestMatchers("/api/**").hasRole(Role.ADMIN.name())
-                .requestMatchers(HttpMethod.POST,"/products/**" ).hasAuthority(UserPermission.PRODUCT_WRITE.getPermission())
-                .requestMatchers(HttpMethod.DELETE,"/products/**" ).hasAuthority(UserPermission.PRODUCT_WRITE.getPermission())
-                .requestMatchers(HttpMethod.PUT,"/products/**" ).hasAuthority(UserPermission.PRODUCT_WRITE.getPermission())
-                // .requestMatchers(HttpMethod.GET,"/products/**" ).hasAuthority(UserPermission.PRODUCT_READ.getPermission())
-                .requestMatchers(HttpMethod.POST,"/customers/**" ).hasAuthority(UserPermission.CUSTOMER_WRITE.getPermission())
-                .requestMatchers(HttpMethod.GET,"/customers/**" ).hasAuthority(UserPermission.CUSTOMER_READ.getPermission())
-                .requestMatchers(HttpMethod.PUT,"/customers/**" ).hasAuthority(UserPermission.CUSTOMER_WRITE.getPermission())
-                .requestMatchers(HttpMethod.GET,"/purchases/**" ).hasAnyRole(Role.ADMIN.name(),Role.CUSTOMER.name())
                 .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin

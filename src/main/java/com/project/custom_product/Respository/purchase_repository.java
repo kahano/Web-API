@@ -12,7 +12,6 @@ import com.project.custom_product.entities.Purchase;
 import jakarta.transaction.Transactional;
 
 
-@Repository
 public interface purchase_repository extends CrudRepository<Purchase,Integer> {
     
 

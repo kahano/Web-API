@@ -8,6 +8,7 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ import com.project.custom_product.Service.Service_Impl.Product_serviceImpl;
 import com.project.custom_product.entities.Product;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/v1/products")
 public class productController {
 
     @Autowired
@@ -37,6 +38,7 @@ public class productController {
    
   
     @PostMapping
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<productDTO> create (@RequestBody productDTO prodDTO){
 
         
@@ -50,7 +52,7 @@ public class productController {
     }
 
     @GetMapping("/{id}")
-
+    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
     public ResponseEntity<productDTO> getProduct(@PathVariable Integer id){
 
 
@@ -63,7 +65,7 @@ public class productController {
 
     
     @GetMapping
-
+    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<productDTO>> findAllproducts(){
         
         List<Product> customers = product_service.getProducts();
@@ -76,6 +78,7 @@ public class productController {
     }
 
     @PutMapping("/{id}")
+     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<productDTO> updateProduct(@PathVariable Integer id, @RequestBody productDTO product_dto){
 
 
@@ -93,6 +96,7 @@ public class productController {
     }
 
     @DeleteMapping("/{product_id}")
+     @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> delete_Product(@PathVariable Integer product_id){
         product_service.deleteProductbyId(product_id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);

@@ -1,6 +1,8 @@
 package com.project.custom_product.entities;
 
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,6 +25,8 @@ import lombok.Setter;
 
 @Entity
 @Data
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
@@ -62,6 +66,21 @@ public class Purchase {
     @ManyToOne(optional = false)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
+
+    public void setTotal_quantities(Integer amount){
+        if(product.getTotal_quantities() > 0 && product.getTotal_quantities() >= amount ){
+            this.total_quantities = amount;
+            product.setTotal_quantities(product.getTotal_quantities()- amount); // update the remaining products
+           
+        }
+        else{
+            throw new IllegalArgumentException("The value exceeded max products available"); // if products finished we need to update mount of products in product clas
+        }
+    }
+
+    public Integer getTotal_quantities(){
+        return this.total_quantities;
+    }
 
 
     

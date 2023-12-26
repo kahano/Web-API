@@ -28,12 +28,12 @@ public class Product {
 
 
 
-    @Column(name = "category",nullable = false)
+    @Column(name = "category")
     private String category;
 
     
 
-    @Column(name =  "serial_code",nullable = false, unique = true)
+    @Column(name =  "serial_code", unique = true)
     private String serial_code;
     
     @Nonnull
