@@ -38,18 +38,8 @@ public class Purchase_serviceImpl implements Purchase_service {
         Customer customer =  customer_service.findCustomerById(customer_id);
         Product product =  product_service.findProductById(product_id);
 
-    //    try{
-    //          if(purchase.getTotal_quantities() <= product.getTotal_quantities()){
-         purchase.setCustomer(customer);
+        purchase.setCustomer(customer);
         purchase.setProduct(product);
-            
-    //          }
-
-      
-    //    }catch(Exception e){
-    //          e.printStackTrace();
-    //    }
-
 
         return purchase_repos.save(purchase);
 
@@ -57,7 +47,7 @@ public class Purchase_serviceImpl implements Purchase_service {
     }
 
     @Override
-    public Purchase findPurchaseBYId(Integer customer_id, Integer product_id) throws PurchaseNotFoundExcpetion {
+    public Purchase findPurchaseBYId(Integer customer_id, Integer product_id) {
         
         return  purchase_repos.findByCustomerIdAndProductId(customer_id, product_id)
         .orElseThrow(() -> new PurchaseNotFoundExcpetion(customer_id, product_id));
@@ -69,7 +59,6 @@ public class Purchase_serviceImpl implements Purchase_service {
     public Purchase updatePurchase( Integer customer_id, Integer product_id, Integer total_quantities) {
         
           Purchase updated_purchase = this.findPurchaseBYId(customer_id, product_id);
-         // Product product =  product_service.findProductById(product_id);
           Integer value = 0;
 
             
@@ -99,8 +88,7 @@ public class Purchase_serviceImpl implements Purchase_service {
         }catch(Exception e){
             e.printStackTrace();
         }
-      
-       
+    
 
         return checkPurchase;
    
