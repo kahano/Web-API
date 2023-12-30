@@ -1,4 +1,4 @@
-package com.project.custom_product.AppUser;
+package com.project.custom_product.Auth;
 
 public enum UserPermission {
 
