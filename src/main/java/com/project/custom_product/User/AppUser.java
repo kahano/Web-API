@@ -1,4 +1,4 @@
-package com.project.custom_product.Auth;
+package com.project.custom_product.User;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,36 +16,39 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 
-
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Data
 public class AppUser implements UserDetails {
 
-  
 
+
+    private UUID userId;
     
+ 
     private String username;
 
     private String password;
 
-    // @Enumerated(EnumType.STRING)
-    // private Role role;
+    //@Enumerated(EnumType.STRING)
+    //private Role role;
 
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
+    private  Set<? extends GrantedAuthority> grantedAuthorities;
 
-    private final boolean locked;
+    private  boolean locked;
 
-    private final boolean enable;
+    private  boolean enable;
 
-    private final boolean is_accountExpired;
+    private  boolean is_accountExpired;
 
-    private final boolean is_credentialsExpired;
+    private  boolean is_credentialsExpired;
 
     // private String email;
 
+   
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

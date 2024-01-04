@@ -1,19 +1,20 @@
-package com.project.custom_product.Auth;
+package com.project.custom_product.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.project.custom_product.security.PasswordEncoder;
 
 import lombok.AllArgsConstructor;
 
-@Repository
+
 @AllArgsConstructor
-public class AppUserServiceDao implements AppUserRepository {
+@Repository("fake")
+public class AppUserRepositoryDao implements fakeAppUserRepository {
 
     @Autowired
     private final  BCryptPasswordEncoder passwordencoder;
@@ -22,9 +23,12 @@ public class AppUserServiceDao implements AppUserRepository {
        
         List<AppUser> appUserList = List.of(
 
-            new AppUser("user_pass",
-            passwordencoder.encode("kahano243"),
-            Role.CUSTOMER.get_GrantedAuthorities(), 
+    
+
+            new AppUser(UUID.randomUUID(),
+            "admin_pass",
+            passwordencoder.encode("kahano1988"),
+            Role.ADMIN.get_GrantedAuthorities(), 
             true, 
             true,
              true, 
@@ -32,10 +36,10 @@ public class AppUserServiceDao implements AppUserRepository {
             
             
             ),
-
-            new AppUser("admin_pass",
-            passwordencoder.encode("kahano1988"),
-            Role.ADMIN.get_GrantedAuthorities(), 
+            new AppUser(UUID.randomUUID(),
+            "user_pass",
+            passwordencoder.encode("kahano243"),
+            Role.CUSTOMER.get_GrantedAuthorities(), 
             true, 
             true,
              true, 
@@ -52,12 +56,20 @@ public class AppUserServiceDao implements AppUserRepository {
     
 
     @Override
-    public Optional<AppUser> findByUsername(String username){
+    public Optional<AppUser> SelectAppUserByName(String username){
         
         return get_AppUsers()
             .stream()
             .filter(appUser -> username.equals(appUser.getUsername()))
             .findFirst();
+    }
+
+
+    @Override
+    public Boolean existsByUsername(String username) {
+        return get_AppUsers()
+                .stream()
+                .anyMatch(appuser -> username.equals(appuser.getUsername()));
     }
 
     

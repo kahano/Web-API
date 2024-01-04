@@ -18,13 +18,17 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.project.custom_product.Auth.CustomUserdetailsService;
+import com.project.custom_product.Jwt_Auth.JwtAuthEntryPoint;
+import com.project.custom_product.Jwt_Auth.JwtAuthenticationFilter;
+import com.project.custom_product.Jwt_Auth.JwtConfig;
+import com.project.custom_product.User.CustomUserdetailsService;
 
 
 
@@ -33,12 +37,16 @@ import com.project.custom_product.Auth.CustomUserdetailsService;
 @RequiredArgsConstructor
 @EnableMethodSecurity(prePostEnabled = true)
 public class webSecurityConfig {
+
+    private final JwtAuthEntryPoint auth_entrypoint;
     
-    @Autowired
+
     private final PasswordEncoder passwordencoder;
 
-    @Autowired
+
     private final CustomUserdetailsService user_service;
+
+    private final JwtConfig jwtconfig;
 
     
 
@@ -48,27 +56,24 @@ public class webSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
+            .exceptionHandling(exception -> exception 
+                        .authenticationEntryPoint(auth_entrypoint))
+            
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/","index","/css/*", "/js/*").permitAll()
-                .anyRequest().authenticated()
-            )
-            .formLogin(formLogin -> formLogin
-                .loginPage("/login")
-                .permitAll()
-                
-            )
-            
-            .logout(logout -> logout
-            .logoutUrl("/logout")
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) // https://docs.spring.io/spring-security/site/docs/4.2.12.RELEASE/apidocs/org/springframework/security/config/annotation/web/configurers/LogoutConfigurer.html
-            .clearAuthentication(true)
-            .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID", "remember-me")
-            .logoutSuccessUrl("/login")
-            )
+                .requestMatchers("/api/auth/**").permitAll()
+                //.requestMatchers("/api/v1/**").permitAll()
+                // .requestMatchers("/api/v2/**").permitAll()
+                .anyRequest().authenticated())
+    
+
          
             .rememberMe(Customizer.withDefaults())
             .httpBasic(Customizer.withDefaults());
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 
         return http.build();
@@ -77,33 +82,7 @@ public class webSecurityConfig {
         
     }
 
-    // @Bean
-    // PasswordEncoder passwordEncoder() {
-    //     return new BCryptPasswordEncoder(10);
-    // }
-
-    // @Bean 
-    // public UserDetailsService users(){
-        
-    //     UserDetails admin = User.builder()
-    //     .username("admin_pass")
-    //     .password(this.passwordEncoder().encode("kahano1988"))
-    //      .authorities(Role.ADMIN.get_GrantedAuthorities())
-    //     .build();
-
-        
-    //     UserDetails user  = User.builder()
-    //     .username("user_pass")
-    //     .password(this.passwordEncoder().encode("kahano243"))
-    //     .authorities(Role.CUSTOMER.get_GrantedAuthorities())
-    //     .build();
-    //     System.out.println("hashed password is: " + user.getPassword());
-
-    //     return new InMemoryUserDetailsManager(admin,user);
-
-
-    // }
-
+  
     @Bean
     public AuthenticationManager authManager(){
         DaoAuthenticationProvider daoProvider = new DaoAuthenticationProvider();
@@ -112,6 +91,12 @@ public class webSecurityConfig {
         return new ProviderManager(daoProvider);
     }
 
+    @Bean
+    public  JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(user_service,jwtconfig);
+    }
+
+   
 
     
 

@@ -1,4 +1,4 @@
-package com.project.custom_product.Auth;
+package com.project.custom_product.User;
 
 import java.util.EnumSet;
 import java.util.Set;
