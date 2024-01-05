@@ -59,11 +59,11 @@ public class Purchase_serviceImpl implements Purchase_service {
     public Purchase updatePurchase( Integer customer_id, Integer product_id, Integer total_quantities) {
         
           Purchase updated_purchase = this.findPurchaseBYId(customer_id, product_id);
-          Integer value = 0;
+        
 
             
         updated_purchase.setTotal_quantities(total_quantities);
-        updated_purchase.setBill(value);
+     
     
         
         return purchase_repos.save(updated_purchase);
@@ -77,25 +77,6 @@ public class Purchase_serviceImpl implements Purchase_service {
         
     }
 
-    @Override
-    public Purchase getTotalPricePurchase_per_Customer(  Integer customer_id, Integer product_id) {
-        
-        Purchase checkPurchase = this.findPurchaseBYId(customer_id, product_id);
-        try{
-            if(checkPurchase.getTotal_quantities() > 0){
-               checkPurchase = this.updatePurchase(customer_id, product_id, checkPurchase.getTotal_quantities());
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    
-
-        return checkPurchase;
-   
-
-
-       
-    }
 
     
 

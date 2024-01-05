@@ -54,9 +54,6 @@ public class Purchase {
     @Column(name = "total_quantities", nullable = false)
     private Integer total_quantities;
 
-    
-    @Column(name = "bill")
-    private Integer bill;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")

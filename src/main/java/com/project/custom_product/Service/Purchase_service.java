@@ -17,9 +17,6 @@ public interface Purchase_service {
 
     void delete(Integer customer_id, Integer product_id);
 
-    @Transactional
-    Purchase getTotalPricePurchase_per_Customer( Integer customer_id, Integer product_id);
-
     List<Purchase> getAllCustomersPurchased(Integer customer_id);
 
     List<Purchase> getAllProductssPurchased(Integer product_id);
