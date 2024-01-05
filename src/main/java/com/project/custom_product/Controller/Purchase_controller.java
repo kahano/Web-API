@@ -72,18 +72,6 @@ public class Purchase_controller {
     }
 
 
-    @GetMapping("/totalprice/customer/{customer_id}/product/{product_id}") // showing the bill after ordering
-    @PreAuthorize(value = "hasAnyRole('ROLE_ADMIN','ROLE_CUSTOMER')")
-    public ResponseEntity<PurchaseDTO> getBillForPurchase(@PathVariable Integer customer_id, @PathVariable Integer product_id){
-
-        Purchase purchase= purchase_service.getTotalPricePurchase_per_Customer(customer_id,product_id);
-
-        PurchaseDTO dto = mapper.convertPurchaseToDto(purchase);
-        
-
-        return new ResponseEntity<>(dto,HttpStatus.OK);
-    }
-
     @DeleteMapping("/delete/customer/{customer_id}/product/{product_id}")
     @PreAuthorize(value = "hasAuthority('customer:write')")
     public ResponseEntity<?> deletePurchase(@PathVariable Integer customer_id, @PathVariable Integer product_id){

@@ -4,17 +4,20 @@ import com.project.custom_product.Respository.product_repository;
 import com.project.custom_product.Service.Product_service;
 import com.project.custom_product.entities.Product;
 import com.project.custom_product.exception.ProductNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.AllArgsConstructor;
+
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
+@AllArgsConstructor
 @Service
 public class Product_serviceImpl implements Product_service {
 
-    @Autowired
-    private product_repository productRepository ;
+
+    private final product_repository productRepository ;
 
 
 

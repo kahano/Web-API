@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 @Repository("fake")
 public class AppUserRepositoryDao implements fakeAppUserRepository {
 
-    @Autowired
     private final  BCryptPasswordEncoder passwordencoder;
 
      private List<AppUser> get_AppUsers(){

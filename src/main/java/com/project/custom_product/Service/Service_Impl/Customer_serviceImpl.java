@@ -4,26 +4,21 @@ import com.project.custom_product.Respository.customer_repository;
 import com.project.custom_product.Service.Customer_service;
 import com.project.custom_product.entities.Customer;
 import com.project.custom_product.exception.CustomerNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Service
-
+@AllArgsConstructor
 public class Customer_serviceImpl implements Customer_service  {
 
-    @Autowired
-    private customer_repository customer_repos;
+  
+    private final customer_repository customer_repos;
 
-    public Customer_serviceImpl(customer_repository repos){
-        customer_repos = repos;
-    }
-
-
-
-
+    
 
 
     @Override

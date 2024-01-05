@@ -15,7 +15,6 @@ public class PurchaseMapper {
         .purchase_code(purchase.getPurchase_code())
         .price(purchase.getPrice())
         .total_quantities(purchase.getTotal_quantities())
-        .bill(purchase.getBill())
         .build();
     }
 
@@ -25,7 +24,6 @@ public class PurchaseMapper {
         .purchase_code(purchase.getPurchase_code())
         .price(purchase.getPrice())
         .total_quantities(purchase.getTotal_quantities())
-        .bill(purchase.getBill())
         .build();
     }
 

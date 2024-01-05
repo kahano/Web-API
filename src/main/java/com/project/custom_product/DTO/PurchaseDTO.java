@@ -23,7 +23,6 @@ public class PurchaseDTO {
 
     private Integer total_quantities;
 
-    private Integer bill;
 
    
 

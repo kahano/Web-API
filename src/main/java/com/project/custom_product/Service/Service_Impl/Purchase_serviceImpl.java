@@ -21,13 +21,12 @@ import java.util.List;
 public class Purchase_serviceImpl implements Purchase_service {
 
 
-     purchase_repository purchase_repos;
+    private final  purchase_repository purchase_repos;
 
-    @Autowired
-     Customer_serviceImpl customer_service;
+    private final Customer_serviceImpl customer_service;
 
 
-     Product_serviceImpl product_service;
+    private final  Product_serviceImpl product_service;
 
   
 

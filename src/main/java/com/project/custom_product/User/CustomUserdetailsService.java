@@ -22,7 +22,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CustomUserdetailsService implements UserDetailsService {
 
-    @Autowired
     @Qualifier("fake")
     private final fakeAppUserRepository user_repository;
 
